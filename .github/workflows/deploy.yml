@@ -9,11 +9,10 @@ permissions:
   contents: read
   packages: write
 
-# Deploy target is held in repo variables (Settings → Variables), not in source.
+# Deploy host/user are masked Secrets (loaded into env by the first step);
+# the path is a (non-sensitive) repo Variable. Nothing internal lives in source.
 env:
   IMAGE_NAME: ghcr.io/mv50000/rk9-site
-  DEPLOY_HOST: ${{ vars.DEPLOY_HOST }}
-  DEPLOY_USER: ${{ vars.DEPLOY_USER }}
   DEPLOY_PATH: ${{ vars.DEPLOY_PATH }}
 
 jobs:
@@ -27,12 +26,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Repo Variables aren't masked in logs — register the deploy target as
-      # log masks so the internal host/user never appear in (public) run logs.
-      - name: Mask deploy target in logs
+      # Load deploy host/user from Secrets into the job env. Secrets are
+      # auto-masked everywhere (incl. command echoes), so they never appear
+      # in the (public) run logs.
+      - name: Load deploy target
+        env:
+          DH: ${{ secrets.DEPLOY_HOST }}
+          DU: ${{ secrets.DEPLOY_USER }}
         run: |
-          echo "::add-mask::${{ vars.DEPLOY_HOST }}"
-          echo "::add-mask::${{ vars.DEPLOY_USER }}"
+          echo "DEPLOY_HOST=$DH" >> "$GITHUB_ENV"
+          echo "DEPLOY_USER=$DU" >> "$GITHUB_ENV"
 
       - name: Configure SSH
         run: |
