@@ -3,6 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "description": "RK9 AI OY — public marketing site (rk9.fi)",
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "vite",

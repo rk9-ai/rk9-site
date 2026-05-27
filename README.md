@@ -56,3 +56,7 @@ docker build -t rk9-site .
 docker run --rm -p 3050:80 rk9-site
 # → http://localhost:3050  (health: /healthz)
 ```
+
+## License
+
+[MIT](LICENSE) © 2026 RK9 AI OY
