@@ -27,6 +27,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Repo Variables aren't masked in logs — register the deploy target as
+      # log masks so the internal host/user never appear in (public) run logs.
+      - name: Mask deploy target in logs
+        run: |
+          echo "::add-mask::${{ vars.DEPLOY_HOST }}"
+          echo "::add-mask::${{ vars.DEPLOY_USER }}"
+
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh
