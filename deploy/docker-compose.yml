@@ -1,0 +1,23 @@
+# RK9 AI marketing site — static nginx container.
+# Deployed to /srv/rk9-site/prod/ on docker.rk9.fi by CI.
+# IMAGE_TAG is pinned by CI on every deploy — never use 'latest'.
+# Upstream TLS + apex (rk9.fi) routing is on nginx.rk9.fi.
+
+services:
+  web:
+    image: ghcr.io/mv50000/rk9-site:${IMAGE_TAG}
+    container_name: rk9-site-web
+    restart: unless-stopped
+    ports:
+      - "3050:80"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:80/healthz"]
+      interval: 15s
+      timeout: 5s
+      retries: 4
+      start_period: 10s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

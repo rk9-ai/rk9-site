@@ -1,0 +1,138 @@
+name: Deploy
+
+# Manual deploy (no push trigger — a self-hosted [docker] runner must be
+# registered for this repo first; see deploy/README in the repo README).
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  IMAGE_NAME: ghcr.io/mv50000/rk9-site
+  DEPLOY_HOST: docker.rk9.fi
+  DEPLOY_USER: rk9admin
+  DEPLOY_PATH: /srv/rk9-site/prod
+
+jobs:
+  deploy:
+    name: rk9-site/prod
+    runs-on: [self-hosted, docker]
+    timeout-minutes: 15
+    concurrency:
+      group: deploy-rk9-site-prod
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H $DEPLOY_HOST >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: Compute image tag
+        id: tag
+        run: |
+          TAG="sha-${GITHUB_SHA:0:7}"
+          echo "image_tag=${TAG}" >> "$GITHUB_OUTPUT"
+          echo "full_image=${IMAGE_NAME}:${TAG}" >> "$GITHUB_OUTPUT"
+
+      - name: Sync source to build host
+        run: |
+          ssh -i ~/.ssh/deploy_key ${DEPLOY_USER}@${DEPLOY_HOST} "rm -rf /tmp/rk9-site-build && mkdir -p /tmp/rk9-site-build"
+          tar cz --exclude=.git --exclude=node_modules --exclude=dist . \
+            | ssh -i ~/.ssh/deploy_key ${DEPLOY_USER}@${DEPLOY_HOST} "tar xz -C /tmp/rk9-site-build"
+
+      # Build on docker.rk9.fi (runner has no local Docker).
+      - name: Build and push image on remote host
+        run: |
+          ssh -i ~/.ssh/deploy_key ${DEPLOY_USER}@${DEPLOY_HOST} \
+            GHCR_TOKEN="$GHCR_TOKEN" \
+            GHCR_USER="$GHCR_USER" \
+            FULL_IMAGE="$FULL_IMAGE" \
+            IMAGE_NAME="$IMAGE_NAME" \
+            GITHUB_REPO="$GITHUB_REPO" \
+            GITHUB_SHA_VAL="$GITHUB_SHA_VAL" \
+            bash -s <<'REMOTE'
+          set -euo pipefail
+          cd /tmp/rk9-site-build
+          echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USER" --password-stdin
+          docker build \
+            --label "org.opencontainers.image.source=https://github.com/${GITHUB_REPO}" \
+            --label "org.opencontainers.image.revision=${GITHUB_SHA_VAL}" \
+            -t "$FULL_IMAGE" \
+            -t "${IMAGE_NAME}:env-prod" \
+            .
+          docker push "$FULL_IMAGE"
+          docker push "${IMAGE_NAME}:env-prod"
+          docker logout ghcr.io >/dev/null 2>&1 || true
+          rm -rf /tmp/rk9-site-build
+          REMOTE
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GHCR_USER: ${{ github.actor }}
+          GITHUB_REPO: ${{ github.repository }}
+          GITHUB_SHA_VAL: ${{ github.sha }}
+          FULL_IMAGE: ${{ steps.tag.outputs.full_image }}
+
+      - name: Deploy stack
+        run: |
+          ssh -i ~/.ssh/deploy_key ${DEPLOY_USER}@${DEPLOY_HOST} "mkdir -p ${DEPLOY_PATH}"
+          tar cz -C deploy . | ssh -i ~/.ssh/deploy_key ${DEPLOY_USER}@${DEPLOY_HOST} \
+            "cd ${DEPLOY_PATH} && tar xz --exclude=.env --exclude=current-tag --exclude=previous-tag"
+
+          ssh -i ~/.ssh/deploy_key ${DEPLOY_USER}@${DEPLOY_HOST} \
+            DEPLOY_PATH="$DEPLOY_PATH" \
+            IMAGE_TAG="$IMAGE_TAG" \
+            GHCR_TOKEN="$GHCR_TOKEN" \
+            GHCR_USER="$GHCR_USER" \
+            bash -s <<'REMOTE'
+          set -euo pipefail
+          cd "$DEPLOY_PATH"
+          touch current-tag previous-tag
+          if [ -s current-tag ]; then cp current-tag previous-tag; fi
+          if [ -f .env ]; then
+            grep -v '^IMAGE_TAG=' .env > .env.tmp 2>/dev/null || true
+            mv .env.tmp .env
+          fi
+          echo "IMAGE_TAG=${IMAGE_TAG}" >> .env
+          echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USER" --password-stdin
+          docker compose pull
+          docker compose up -d --wait --remove-orphans
+          docker logout ghcr.io >/dev/null 2>&1 || true
+          echo "$IMAGE_TAG" > current-tag
+          REMOTE
+        env:
+          IMAGE_TAG: ${{ steps.tag.outputs.image_tag }}
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GHCR_USER: ${{ github.actor }}
+
+      - name: Wait for health
+        uses: mv50000/cicd/actions/wait-for-health@v1
+        with:
+          health_url: http://${{ env.DEPLOY_HOST }}:3050/healthz
+          timeout_s: 90
+
+      - name: Smoke check homepage + assets
+        run: |
+          ssh -i ~/.ssh/deploy_key ${DEPLOY_USER}@${DEPLOY_HOST} bash -s <<'REMOTE'
+          set -euo pipefail
+          HTML=$(curl -sSf -m 10 http://localhost:3050/)
+          echo "$HTML" | grep -q 'id="root"' || { echo "::error::homepage missing #root"; exit 1; }
+          ASSETS=$(echo "$HTML" | grep -oE '/assets/[^"]+\.(js|css)' | sort -u)
+          FAILED=0
+          while IFS= read -r a; do
+            [ -z "$a" ] && continue
+            S=$(curl -sI -o /dev/null -w '%{http_code}' -m 10 "http://localhost:3050${a}" || echo 000)
+            [ "$S" = "200" ] || { echo "FAIL ${a} (HTTP ${S})"; FAILED=$((FAILED+1)); }
+          done <<< "$ASSETS"
+          [ "$FAILED" -eq 0 ] || { echo "::error::${FAILED} missing assets"; exit 1; }
+          echo "Homepage + all assets resolve."
+          REMOTE
+
+      - name: Cleanup SSH key
+        if: always()
+        run: rm -f ~/.ssh/deploy_key
