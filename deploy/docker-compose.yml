@@ -1,7 +1,7 @@
 # RK9 AI marketing site — static nginx container.
-# Deployed to /srv/rk9-site/prod/ on docker.rk9.fi by CI.
+# Deployed by CI to the deploy host (see repo Variables).
 # IMAGE_TAG is pinned by CI on every deploy — never use 'latest'.
-# Upstream TLS + apex (rk9.fi) routing is on nginx.rk9.fi.
+# Upstream TLS + apex (rk9.fi) routing is handled by the reverse proxy.
 
 services:
   web:

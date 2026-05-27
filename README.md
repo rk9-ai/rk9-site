@@ -38,24 +38,16 @@ npm run preview  # serve the production build
 To explore other palettes/fonts/heroes, change `CONFIG` and rebuild (the variants all
 still exist in `src/tokens.js`, `src/effects.jsx`, `src/copy.js`).
 
-## Deploy
+CI: `.github/workflows/deploy.yml` (manual `workflow_dispatch`) builds the image on the
+deploy host, pushes to `ghcr.io/mv50000/rk9-site`, and runs `docker compose up -d`. The
+container serves on port `3050`; a reverse proxy terminates TLS for the public apex `rk9.fi`.
 
-Hosting follows the per-company RK9 pattern:
+Deploy target (host/user/path) is held in repo **Variables**
+(`DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_PATH`); the deploy SSH key is the `DEPLOY_SSH_KEY`
+repo **Secret**. A `[self-hosted, docker]` Actions runner must be registered for the repo.
 
-- **Container** runs on `docker.rk9.fi` at port `3050`, deployed to `/srv/rk9-site/prod/`.
-- **`nginx.rk9.fi`** reverse-proxies the public apex `rk9.fi` to it over TLS.
-
-CI: `.github/workflows/deploy.yml` (manual `workflow_dispatch`) builds the image on
-docker.rk9.fi, pushes to `ghcr.io/mv50000/rk9-site`, and runs `docker compose up -d`.
-
-**Required before first deploy:**
-1. Register a `[self-hosted, docker]` Actions runner for this repo (shared paperclip-01 runner).
-2. Repo secret `DEPLOY_SSH_KEY` — the `paperclip`/`rk9admin` deploy key for docker.rk9.fi.
-3. **DNS** (registrar): A/AAAA `rk9.fi` + `www.rk9.fi` → nginx.rk9.fi public IP.
-   Leave MX / SPF / DKIM / DMARC records untouched — email is unaffected.
-4. **nginx.rk9.fi vhost + TLS**: apply `deploy/nginx/rk9.fi.conf` and run
-   `certbot --nginx -d rk9.fi -d www.rk9.fi` (rk9admin, via SSH).
-5. **Firewall** on docker.rk9.fi: allow `192.168.1.17 → 192.168.1.58:3050`.
+Public exposure (DNS A/AAAA for the apex, a reverse-proxy vhost, and a TLS cert) is managed
+out-of-band on the infra host — email (MX/SPF/DKIM/DMARC) is independent and unaffected.
 
 ## Docker (local)
 

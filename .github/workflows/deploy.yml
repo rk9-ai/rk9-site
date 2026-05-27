@@ -9,11 +9,12 @@ permissions:
   contents: read
   packages: write
 
+# Deploy target is held in repo variables (Settings → Variables), not in source.
 env:
   IMAGE_NAME: ghcr.io/mv50000/rk9-site
-  DEPLOY_HOST: docker.rk9.fi
-  DEPLOY_USER: rk9admin
-  DEPLOY_PATH: /srv/rk9-site/prod
+  DEPLOY_HOST: ${{ vars.DEPLOY_HOST }}
+  DEPLOY_USER: ${{ vars.DEPLOY_USER }}
+  DEPLOY_PATH: ${{ vars.DEPLOY_PATH }}
 
 jobs:
   deploy:
@@ -46,7 +47,7 @@ jobs:
           tar cz --exclude=.git --exclude=node_modules --exclude=dist . \
             | ssh -i ~/.ssh/deploy_key ${DEPLOY_USER}@${DEPLOY_HOST} "tar xz -C /tmp/rk9-site-build"
 
-      # Build on docker.rk9.fi (runner has no local Docker).
+      # Build on the deploy host (runner has no local Docker).
       - name: Build and push image on remote host
         run: |
           ssh -i ~/.ssh/deploy_key ${DEPLOY_USER}@${DEPLOY_HOST} \
