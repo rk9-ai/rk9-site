@@ -5,7 +5,7 @@
 
 services:
   web:
-    image: ghcr.io/mv50000/rk9-site:${IMAGE_TAG}
+    image: ghcr.io/rk9-ai/rk9-site:${IMAGE_TAG}
     container_name: rk9-site-web
     restart: unless-stopped
     ports:

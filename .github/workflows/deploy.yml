@@ -12,7 +12,7 @@ permissions:
 # Deploy host/user are masked Secrets (loaded into env by the first step);
 # the path is a (non-sensitive) repo Variable. Nothing internal lives in source.
 env:
-  IMAGE_NAME: ghcr.io/mv50000/rk9-site
+  IMAGE_NAME: ghcr.io/rk9-ai/rk9-site
   DEPLOY_PATH: ${{ vars.DEPLOY_PATH }}
 
 jobs:
