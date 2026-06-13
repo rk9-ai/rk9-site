@@ -39,7 +39,7 @@ To explore other palettes/fonts/heroes, change `CONFIG` and rebuild (the variant
 still exist in `src/tokens.js`, `src/effects.jsx`, `src/copy.js`).
 
 CI: `.github/workflows/deploy.yml` (manual `workflow_dispatch`) builds the image on the
-deploy host, pushes to `ghcr.io/mv50000/rk9-site`, and runs `docker compose up -d`. The
+deploy host, pushes to `ghcr.io/rk9-ai/rk9-site`, and runs `docker compose up -d`. The
 container serves on port `3050`; a reverse proxy terminates TLS for the public apex `rk9.fi`.
 
 Deploy target (host/user/path) is held in repo **Variables**
