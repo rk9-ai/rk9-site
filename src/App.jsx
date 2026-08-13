@@ -5,25 +5,19 @@ import { useState, useEffect } from "react";
 import { LangCtx, Nav, Footer } from "./components.jsx";
 import { CoordsHud } from "./effects.jsx";
 import { Home } from "./home.jsx";
-import { About, Contact, Privacy } from "./pages.jsx";
+import { Work, About, Contact, Privacy } from "./pages.jsx";
 import { makeT } from "./copy.js";
 
 // Locked design configuration (chosen from the Tweaks explorations).
 //   palette  pine       — Petäjä, cream + green
 //   fontPair editorial  — Instrument Serif + Geist
-//   hero     network    — agent-network hero
-//   canvas   mesh        — MESH.GRID visualisation
 //   logo     grid
-//   hud      true        — coords HUD (auto-hidden < 760px)
-//   orch     os          — "Yhtiön käyttöjärjestelmä" orchestration copy
+//   hud      true       — coords HUD (auto-hidden < 760px)
 export const CONFIG = {
   palette: "pine",
   fontPair: "editorial",
-  hero: "network",
-  canvas: "mesh",
   logo: "grid",
   hud: true,
-  orch: "os",
 };
 
 export default function App() {
@@ -52,10 +46,11 @@ export default function App() {
 
   let page;
   const seg = route.split("/");
-  if (seg[0] === "about") page = <About navigate={navigate} orch={CONFIG.orch} />;
+  if (seg[0] === "work") page = <Work navigate={navigate} />;
+  else if (seg[0] === "about") page = <About navigate={navigate} />;
   else if (seg[0] === "contact") page = <Contact navigate={navigate} />;
   else if (seg[0] === "privacy") page = <Privacy navigate={navigate} />;
-  else page = <Home navigate={navigate} heroVariant={CONFIG.hero} orch={CONFIG.orch} canvas={CONFIG.canvas} />;
+  else page = <Home navigate={navigate} />;
 
   return (
     <LangCtx.Provider value={ctx}>
