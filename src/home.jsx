@@ -1,10 +1,12 @@
-// Home — hero with agent network, what we do, how it works, metrics, founder.
+// Home — hero with the vault graph sphere, what we do, how we work,
+// work teaser, metrics, founder.
 
 import { useLang, PageBody, SectionHead, Pill, Arrow } from "./components.jsx";
-import { Reveal, AgentNetwork, ActivityTicker, AnimatedNumber } from "./effects.jsx";
+import { Reveal, VaultGraph, AnimatedNumber } from "./effects.jsx";
+import { PRODUCTS, ProductMotif } from "./pages.jsx";
 
-function HeroNetwork({ navigate, canvas }) {
-  const { t, lang } = useLang();
+function Hero({ navigate }) {
+  const { t } = useLang();
   return (
     <section className="hero">
       <div className="wrap">
@@ -28,8 +30,8 @@ function HeroNetwork({ navigate, canvas }) {
             </Reveal>
             <Reveal delay={240}>
               <div className="hero-actions">
-                <button className="btn" onClick={() => navigate("about")}>
-                  {t("home.hero.cta.about")} <Arrow />
+                <button className="btn" onClick={() => navigate("work")}>
+                  {t("home.hero.cta.work")} <Arrow />
                 </button>
                 <button className="btn btn-secondary" onClick={() => navigate("contact")}>
                   {t("home.hero.cta.contact")}
@@ -41,8 +43,8 @@ function HeroNetwork({ navigate, canvas }) {
             </Reveal>
           </div>
           <Reveal delay={120} className="hero-side">
-            <AgentNetwork variant={canvas} count={85} />
-            <ActivityTicker />
+            <VaultGraph />
+            <p className="vault-caption">{t("vault.caption")}</p>
           </Reveal>
         </div>
       </div>
@@ -50,77 +52,11 @@ function HeroNetwork({ navigate, canvas }) {
   );
 }
 
-function HeroManifesto({ navigate }) {
+export function Home({ navigate }) {
   const { t, lang } = useLang();
-  const lines = lang === "fi"
-    ? [
-        { n: "01", txt: "Yksi henkilö.",            em: true },
-        { n: "02", txt: "Avoin alusta.",            em: false },
-        { n: "03", txt: "Vaihteleva miehistö.", em: false, accent: true },
-      ]
-    : [
-        { n: "01", txt: "One person.",   em: true },
-        { n: "02", txt: "An open platform.", em: false },
-        { n: "03", txt: "A variable crew.", em: false, accent: true },
-      ];
-  return (
-    <section className="hero">
-      <div className="wrap">
-        <Reveal>
-          <div className="kicker"><span className="dot" />{t("kicker")}</div>
-        </Reveal>
-        <div className="spacer-32" />
-        <Reveal delay={80}>
-          <h1 className="display display-xl hero-title">
-            {lines.map((l, i) => (
-              <span key={i} style={{ display: "block" }}>
-                <span className="mono" style={{ fontSize: "0.18em", verticalAlign: "super", color: "var(--subtle)", marginRight: "0.4em", letterSpacing: "0.06em" }}>{l.n}</span>
-                {l.em
-                  ? <em>{l.txt}</em>
-                  : <span style={l.accent ? { color: "var(--accent)" } : null}>{l.txt}</span>
-                }
-              </span>
-            ))}
-          </h1>
-        </Reveal>
-        <div className="hero-grid" style={{ marginTop: 48, alignItems: "end" }}>
-          <Reveal delay={160}>
-            <p className="lede">{t("home.hero.subtitle")}</p>
-          </Reveal>
-          <Reveal delay={220} className="hero-side" style={{ minHeight: "auto" }}>
-            <div className="hero-actions">
-              <button className="btn" onClick={() => navigate("about")}>
-                {t("home.hero.cta.about")} <Arrow />
-              </button>
-              <button className="btn btn-secondary" onClick={() => navigate("contact")}>
-                {t("home.hero.cta.contact")}
-              </button>
-            </div>
-            <Pill live={true}>{t("live")}</Pill>
-          </Reveal>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Hero({ variant, navigate, canvas }) {
-  if (variant === "manifesto") return <HeroManifesto navigate={navigate} />;
-  return <HeroNetwork navigate={navigate} canvas={canvas} />;
-}
-
-export function Home({ navigate, heroVariant, orch, canvas }) {
-  const { t, lang } = useLang();
-  // Resolve orchestration-step copy from variant
-  const orchKey = orch || "tyonjohto";
-  const step2 = {
-    role: t("orch." + orchKey + ".role"),
-    who:  t("orch." + orchKey + ".who"),
-    body: t("orch." + orchKey + ".body"),
-  };
   return (
     <PageBody screenLabel="Home">
-      <Hero variant={heroVariant} navigate={navigate} canvas={canvas} />
+      <Hero navigate={navigate} />
 
       {/* What we do */}
       <section className="section">
@@ -148,7 +84,7 @@ export function Home({ navigate, heroVariant, orch, canvas }) {
         </div>
       </section>
 
-      {/* How it works — 3 steps */}
+      {/* How we work — 3 steps */}
       <section className="section">
         <div className="wrap">
           <SectionHead
@@ -158,19 +94,43 @@ export function Home({ navigate, heroVariant, orch, canvas }) {
             intro={t("home.how.intro")}
           />
           <div className="steps">
-            {[1,2,3].map(i => {
-              const role = i === 2 ? step2.role : t("home.how.step"+i+".role");
-              const who  = i === 2 ? step2.who  : t("home.how.step"+i+".who");
-              const body = i === 2 ? step2.body : t("home.how.step"+i+".body");
-              return (
-                <Reveal key={i + "-" + orchKey} delay={i * 100} as="div" className="step">
-                  <span className="step-idx">0{i} / 03</span>
-                  <span className="step-role">{role}</span>
-                  <span className="step-who">{who}</span>
-                  <div className="step-body">{body}</div>
-                </Reveal>
-              );
-            })}
+            {[1,2,3].map(i => (
+              <Reveal key={i} delay={i * 100} as="div" className="step">
+                <span className="step-idx">0{i} / 03</span>
+                <span className="step-role">{t("home.how.step"+i+".role")}</span>
+                <span className="step-who">{t("home.how.step"+i+".who")}</span>
+                <div className="step-body">{t("home.how.step"+i+".body")}</div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Work teaser */}
+      <section className="section">
+        <div className="wrap">
+          <SectionHead
+            idx="03"
+            kicker={t("home.work.kicker")}
+            title={t("home.work.title")}
+            intro={null}
+          >
+            <button className="text-link" onClick={() => navigate("work")}>
+              {t("home.work.cta")} <Arrow />
+            </button>
+          </SectionHead>
+          <div className="work-teaser">
+            {PRODUCTS.map((p, i) => (
+              <Reveal key={p.key} delay={i * 100} as="div">
+                <a className="work-tease" href={p.url} target="_blank" rel="noopener noreferrer">
+                  <span className="wt-idx mono">W.0{i+1}</span>
+                  <span className="wt-motif"><ProductMotif kind={p.key} /></span>
+                  <span className="wt-name">{p.name}</span>
+                  <span className="wt-tag mono">{t("work."+p.key+".tag")}</span>
+                  <span className="wt-domain mono">{p.domain} <Arrow /></span>
+                </a>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
@@ -179,7 +139,7 @@ export function Home({ navigate, heroVariant, orch, canvas }) {
       <section className="section">
         <div className="wrap">
           <SectionHead
-            idx="03"
+            idx="04"
             kicker={t("home.metrics.kicker")}
             title={lang === "fi" ? "Numerot puhuvat." : "The numbers speak."}
             intro={null}
@@ -187,25 +147,23 @@ export function Home({ navigate, heroVariant, orch, canvas }) {
           <div className="metrics">
             <div className="metric">
               <span className="idx mono">M.01</span>
-              <div className="num" style={{ fontStyle: "italic" }}>n</div>
-              <div className="lbl">{t("home.metrics.agents")}</div>
+              <div className="num"><AnimatedNumber value={3} /></div>
+              <div className="lbl">{t("home.metrics.services")}</div>
             </div>
             <div className="metric">
               <span className="idx mono">M.02</span>
-              <div className="num"><AnimatedNumber value={1} /></div>
-              <div className="lbl">{t("home.metrics.humans")}</div>
+              <div className="num"><AnimatedNumber value={100} suffix=" %" /></div>
+              <div className="lbl">{t("home.metrics.hosting")}</div>
             </div>
             <div className="metric">
               <span className="idx mono">M.03</span>
-              <div className="num" style={{ fontSize: "clamp(36px, 4vw, 56px)" }}>
-                {lang === "fi" ? "Suomi" : "Finland"}
-              </div>
-              <div className="lbl">{t("home.metrics.hosting")}</div>
+              <div className="num tnum">2026</div>
+              <div className="lbl">{t("home.metrics.founded")}</div>
             </div>
             <div className="metric">
               <span className="idx mono">M.04</span>
               <div className="num">MIT</div>
-              <div className="lbl">{t("home.metrics.fork")}</div>
+              <div className="lbl">{t("home.metrics.oss")}</div>
             </div>
           </div>
         </div>
@@ -215,7 +173,7 @@ export function Home({ navigate, heroVariant, orch, canvas }) {
       <section className="section">
         <div className="wrap">
           <SectionHead
-            idx="04"
+            idx="05"
             kicker={t("home.founder.kicker")}
             title={t("home.founder.name")}
             intro={null}

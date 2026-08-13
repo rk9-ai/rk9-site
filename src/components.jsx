@@ -88,6 +88,7 @@ export function Pill({ children, live = false }) {
 // ── Nav ──────────────────────────────────────────────────────────────
 const NAV_ITEMS = [
   { key: "index",   path: "home" },
+  { key: "work",    path: "work" },
   { key: "about",   path: "about" },
   { key: "contact", path: "contact" },
   { key: "privacy", path: "privacy" },
@@ -145,6 +146,7 @@ export function Footer({ navigate, logoVariant }) {
             <h4>{t("nav.index")}</h4>
             <ul>
               <li><button onClick={() => navigate("home")}>{t("nav.index")}</button></li>
+              <li><button onClick={() => navigate("work")}>{t("nav.work")}</button></li>
               <li><button onClick={() => navigate("about")}>{t("nav.about")}</button></li>
             </ul>
           </div>
@@ -164,7 +166,7 @@ export function Footer({ navigate, logoVariant }) {
         </div>
         <div className="footer-bottom">
           <span>{t("footer.imprint")}</span>
-          <span className="mono">rk9.fi · {lang.toUpperCase()} · v2026.05</span>
+          <span className="mono">rk9.fi · {lang.toUpperCase()} · v2026.08</span>
         </div>
       </div>
     </footer>

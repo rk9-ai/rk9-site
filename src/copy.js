@@ -1,168 +1,186 @@
-// Bilingual copy — slim. Only Home, About, Contact, Privacy.
+// Bilingual copy — slim. Home, Work, About, Contact, Privacy.
 
 export const COPY = {
   // ── nav ─────────────────────────────────────────────────────────────
-  "nav.index":   { fi: "Etusivu",     en: "Index" },
-  "nav.about":   { fi: "Yhtiö",       en: "Company" },
+  "nav.index":   { fi: "Etusivu",      en: "Index" },
+  "nav.work":    { fi: "Työt",         en: "Work" },
+  "nav.about":   { fi: "Yhtiö",        en: "Company" },
   "nav.contact": { fi: "Yhteystiedot", en: "Contact" },
-  "nav.privacy": { fi: "Tietosuoja",  en: "Privacy" },
+  "nav.privacy": { fi: "Tietosuoja",   en: "Privacy" },
 
   // ── hero ────────────────────────────────────────────────────────────
   "kicker": {
-    fi: "RK9 AI OY · Suomalainen ohjelmistoyhtiö",
-    en: "RK9 AI OY · A Finnish software company",
+    fi: "RK9 AI OY · Suomalainen ohjelmistotalo",
+    en: "RK9 AI OY · A Finnish software studio",
   },
-  "live": { fi: "Toiminnassa juuri nyt", en: "Operational right now" },
+  "live": { fi: "Tuotannossa juuri nyt", en: "In production right now" },
 
   "home.hero.title": {
-    fi: "Yksi henkilö.\nKoneellinen miehistö.",
-    en: "One person.\nA machine workforce.",
+    fi: "Pieni talo.\nIso jälki.",
+    en: "Small studio.\nBig footprint.",
   },
   "home.hero.subtitle": {
-    fi: "RK9 AI on suomalainen ohjelmistoyhtiö, jossa autonomiset AI-agentit rakentavat ja operoivat digitaalisia palveluja. Ihminen asettaa suunnan; loput tekee kone.",
-    en: "RK9 AI is a Finnish software company where autonomous AI agents build and run digital services. A human sets the direction; the machine does the rest.",
+    fi: "RK9 AI on pieni, moderni ja ketterä suomalainen ohjelmistotalo. Rakennamme ja operoimme omia digitaalisia palveluja — suunnittelusta tuotantoon, itse.",
+    en: "RK9 AI is a small, modern, agile Finnish software studio. We build and run our own digital services — from design to production, ourselves.",
   },
-  "home.hero.cta.about":   { fi: "Yhtiöstä",         en: "About the company" },
-  "home.hero.cta.contact": { fi: "Ota yhteyttä",     en: "Get in touch" },
+  "home.hero.cta.work":    { fi: "Katso työt",   en: "See the work" },
+  "home.hero.cta.contact": { fi: "Ota yhteyttä", en: "Get in touch" },
+
+  "vault.caption": {
+    fi: "Talon tietopohja graafina — jokainen piste on muistiinpano, viivat linkkejä.",
+    en: "The studio's knowledge base as a graph — every dot is a note, the lines are links.",
+  },
 
   // ── home / what we do ───────────────────────────────────────────────
-  "home.what.kicker": { fi: "Mitä rakennetaan", en: "What is being built" },
+  "home.what.kicker": { fi: "Mitä teemme", en: "What we do" },
   "home.what.title": {
-    fi: "Digitaaliset palvelut, jotka kehittävät itseään.",
-    en: "Digital services that develop themselves.",
+    fi: "Omia tuotteita, oikeille asiakkaille.",
+    en: "Our own products, for real customers.",
   },
   "home.what.p1": {
-    fi: "RK9 AI rakentaa ja operoi digitaalisia palveluja suomalaisille markkinoille. Jokainen palvelu on oikeasti tuotannossa — ei demoa, ei kuvakaappausta. Asiakas ei tiedä, että toisella puolella ei ole tiimiä.",
-    en: "RK9 AI builds and operates digital services for Finnish markets. Each service is genuinely in production — not a demo, not a screenshot. The customer does not know there is no team on the other side.",
+    fi: "RK9 rakentaa ja operoi digitaalisia palveluja suomalaisille markkinoille. Jokainen palvelu on oikeasti tuotannossa — ei demoa, ei kuvakaappausta.",
+    en: "RK9 builds and operates digital services for Finnish markets. Each service is genuinely in production — not a demo, not a screenshot.",
   },
   "home.what.p2": {
-    fi: "AI-agentit hoitavat koko elinkaaren: kehityksen, julkaisun, ylläpidon, asiakaspalvelun, prospektoinnin ja monitoroinnin. Yksi ihminen valvoo, hyväksyy isot päätökset, ja ohjaa suuntaa.",
-    en: "AI agents handle the entire lifecycle: development, deployment, maintenance, support, prospecting, and monitoring. One person oversees, approves the big calls, and steers the direction.",
+    fi: "Pidämme koko elinkaaren omissa käsissä: suunnittelun, kehityksen, julkaisun, ylläpidon ja asiakaspalvelun. Pieni talo pystyy siihen, koska työkalupakki on moderni — automaatio ja AI-avusteinen kehitys tekevät raskaan nostotyön.",
+    en: "We keep the whole lifecycle in our own hands: design, development, deployment, maintenance, and support. A small studio can do that because the toolkit is modern — automation and AI-assisted development do the heavy lifting.",
   },
   "home.what.p3": {
-    fi: "Kiinnostavin kysymys ei ole se, kuinka hyviä agentit ovat. Se on se, millaisen rakenteen ne tarvitsevat ympärilleen toimiakseen vastuullisesti.",
-    en: "The most interesting question is not how good the agents are. It is what kind of structure they need around themselves to operate responsibly.",
+    fi: "Kun sama talo suunnittelee, rakentaa ja operoi, palaute kulkee tuotannosta suunnitteluun päivässä — ei kvartaalissa.",
+    en: "When the same studio designs, builds, and operates, feedback travels from production back to design in a day — not a quarter.",
   },
 
   // ── home / how it works ─────────────────────────────────────────────
-  "home.how.kicker": { fi: "Miten se toimii", en: "How it works" },
+  "home.how.kicker": { fi: "Miten työskentelemme", en: "How we work" },
   "home.how.title": {
-    fi: "Ihminen, alusta, miehistö.",
-    en: "Human, platform, workforce.",
+    fi: "Suunnittele, rakenna, operoi.",
+    en: "Design, build, operate.",
   },
   "home.how.intro": {
-    fi: "Kolmitasoinen rakenne, jota sama sykli toistaa joka päivä.",
-    en: "A three-layer structure, repeated every day by the same cycle.",
+    fi: "Sama sykli joka palvelulle — ja sama talo vastaa jokaisesta vaiheesta.",
+    en: "The same cycle for every service — and the same studio owns every step.",
   },
 
-  "home.how.step1.role":  { fi: "Suunta",        en: "Direction" },
-  "home.how.step1.who":   { fi: "Ihminen",       en: "Human" },
-  "home.how.step1.body":  { fi: "Strategia, etiikka, hinnoittelu, isot tuotepäätökset. Aamuraportti ja hyväksyntäportit.", en: "Strategy, ethics, pricing, big product calls. Morning reports and approval gates." },
+  "home.how.step1.role":  { fi: "Vaihe 1",       en: "Step 1" },
+  "home.how.step1.who":   { fi: "Suunnittele",   en: "Design" },
+  "home.how.step1.body":  { fi: "Idea validoidaan oikealla markkinalla, ei kalvoilla. Pieni rajaus, ensimmäinen versio viikoissa.", en: "Ideas are validated on a real market, not on slides. A tight scope, a first version in weeks." },
 
-  "home.how.step2.role":  { fi: "Orkestrointi",  en: "Orchestration" },
-  "home.how.step2.who":   { fi: "Paperclip",     en: "Paperclip" },
-  "home.how.step2.body":  { fi: "Avoimen lähdekoodin alusta. Org chart per palvelu, projektit, tavoitteet, budjetti, audit-jäljet.", en: "An open-source platform. Org chart per service, projects, goals, budget, audit trails." },
+  "home.how.step2.role":  { fi: "Vaihe 2",       en: "Step 2" },
+  "home.how.step2.who":   { fi: "Rakenna",       en: "Build" },
+  "home.how.step2.body":  { fi: "Tuotantokelpoista koodia pienellä kokoonpanolla. Automaatio ja AI-avusteinen kehitys nopeuttavat; ihminen vastaa laadusta.", en: "Production-grade code with a small crew. Automation and AI-assisted development add speed; a human owns the quality." },
 
-  // Orchestration variants — chosen by Tweak `orch`
-  // A) Työnjohto — suomalainen suora
-  "orch.tyonjohto.role": { fi: "Orkestrointi", en: "Orchestration" },
-  "orch.tyonjohto.who":  { fi: "Työnjohto",   en: "The works" },
-  "orch.tyonjohto.body": {
-    fi: "Joka palvelulla on org chart, projektit, tavoitteet ja budjetti. Työnjohto jakaa työn agenteille ja pitää kirjaa hyväksynnöistä.",
-    en: "Each service has an org chart, projects, goals and a budget. The works routes the work to the agents and keeps a ledger of approvals.",
-  },
-  // B) Hermosto — metafora
-  "orch.hermosto.role":  { fi: "Välitys",  en: "Conduction" },
-  "orch.hermosto.who":   { fi: "Hermosto", en: "The nervous system" },
-  "orch.hermosto.body": {
-    fi: "Kuljettaa suunnan ihmiseltä agenteille ja raportit takaisin. Tallentaa päätökset, hyväksynnät ja budjetit.",
-    en: "Carries direction from the human to the agents, and reports back. Records decisions, approvals, and budgets.",
-  },
-  // C) Käyttöjärjestelmä — funktio ilman tuotenimeä
-  "orch.os.role":   { fi: "Alusta", en: "Platform" },
-  "orch.os.who":    { fi: "Yhtiön käyttöjärjestelmä", en: "The company's operating system" },
-  "orch.os.body": {
-    fi: "Avoimen lähdekoodin pohja, muokattu RK9:n tarpeisiin. Org chartit, budjetit, hyväksyntäportit ja audit-jäljet.",
-    en: "An open-source base, adapted to RK9's needs. Org charts, budgets, approval gates and audit trails.",
-  },
-
-  "home.how.step3.role":  { fi: "Suoritus",      en: "Execution" },
-  "home.how.step3.who":   { fi: "Agenttiarmeija",  en: "An agent workforce" },
-  "home.how.step3.body":  { fi: "Koodi, deploy, korjaukset, sähköposti, monitorointi, prospektointi. Käytännössä kaikki paitsi suunta.", en: "Code, deploys, fixes, email, monitoring, prospecting. In practice, everything except direction." },
+  "home.how.step3.role":  { fi: "Vaihe 3",       en: "Step 3" },
+  "home.how.step3.who":   { fi: "Operoi",        en: "Operate" },
+  "home.how.step3.body":  { fi: "Julkaisut, monitorointi, asiakaspalvelu ja jatkokehitys. Palvelut hostataan Suomessa ja pidetään kunnossa itse.", en: "Deploys, monitoring, support, and further development. Services are hosted in Finland and kept healthy in-house." },
 
   // ── home / metrics ──────────────────────────────────────────────────
   "home.metrics.kicker": { fi: "Mittaluokka", en: "Scale" },
-  "home.metrics.agents":   { fi: "Agentteja työssä — määrä vaihtelee", en: "Agents at work — the number varies" },
-  "home.metrics.humans":   { fi: "Ihmistä työllistettynä",   en: "Humans employed" },
-  "home.metrics.hosting":  { fi: "Itse hostattua, Suomessa", en: "Self-hosted, in Finland" },
-  "home.metrics.fork":     { fi: "Pohja avoimena lähdekoodina", en: "Base open-sourced" },
+  "home.metrics.services": { fi: "Palvelua tuotannossa",        en: "Services in production" },
+  "home.metrics.hosting":  { fi: "Hostattu Suomessa",           en: "Hosted in Finland" },
+  "home.metrics.founded":  { fi: "RK9 AI OY perustettu",        en: "RK9 AI OY incorporated" },
+  "home.metrics.oss":      { fi: "Työkaluja avoimena lähdekoodina", en: "Tooling open-sourced" },
+
+  // ── home / work teaser ──────────────────────────────────────────────
+  "home.work.kicker": { fi: "Työt", en: "Work" },
+  "home.work.title": {
+    fi: "Kolme palvelua tuotannossa.",
+    en: "Three services in production.",
+  },
+  "home.work.cta": { fi: "Kaikki työt", en: "All work" },
 
   // ── home / founder ──────────────────────────────────────────────────
   "home.founder.kicker": { fi: "Perustaja",          en: "Founder" },
   "home.founder.name":   { fi: "Mikko-Ville Lahti",  en: "Mikko-Ville Lahti" },
-  "home.founder.role":   { fi: "Perustaja, ainoa työntekijä", en: "Founder, sole employee" },
+  "home.founder.role":   { fi: "Perustaja", en: "Founder" },
   "home.founder.bio": {
-    fi: "Asettaa suunnan, hyväksyy isot päätökset, lukee aamulla agenttien yöraportit. Muun työn tekee kone. Lisää yhtiön taustasta löytyy tiedoista.",
-    en: "Sets the direction, approves the big calls, reads the agents' overnight reports in the morning. The rest is done by the machine. More background on the company page.",
+    fi: "Vastaa suunnasta, tuotteista ja asiakkaista. Talo pidetään tarkoituksella pienenä — se näkyy nopeudessa ja siinä, että jokainen yksityiskohta on jonkun vastuulla. Lisää yhtiön taustasta yhtiösivulla.",
+    en: "Owns the direction, the products, and the customers. The studio is kept small on purpose — you can see it in the speed, and in the fact that every detail is someone's responsibility. More background on the company page.",
   },
   "home.founder.cta": { fi: "Yhtiön tarina", en: "The company story" },
+
+  // ── work ────────────────────────────────────────────────────────────
+  "work.kicker": { fi: "Työt", en: "Work" },
+  "work.title": {
+    fi: "Omat tuotteet.\nTuotannossa.",
+    en: "Our own products.\nIn production.",
+  },
+  "work.lede": {
+    fi: "Kolme palvelua, jotka RK9 on suunnitellut, rakentanut ja operoi. Kaikki tuotannossa, kaikki hostattu Suomessa.",
+    en: "Three services that RK9 has designed, built, and operates. All in production, all hosted in Finland.",
+  },
+  "work.status": { fi: "Tuotannossa", en: "In production" },
+  "work.visit":  { fi: "Avaa palvelu", en: "Open the service" },
+
+  "work.sunspot.tag": { fi: "Reaaliaikainen kaupunkikartta", en: "Real-time city map" },
+  "work.sunspot.desc": {
+    fi: "Näyttää kartalla, mille Helsingin terasseille aurinko paistaa juuri nyt. Auringon kulku ja rakennusten varjot lasketaan reaaliajassa.",
+    en: "Shows on a map which Helsinki terraces are in the sun right now. Sun position and building shadows are computed in real time.",
+  },
+  "work.saatavilla.tag": { fi: "Ajanvaraus", en: "Appointment booking" },
+  "work.saatavilla.desc": {
+    fi: "Ajanvarauspalvelu hyvinvointi- ja kauneusalalle. Kiinteä kuukausihinta tai ilmainen — ei komissiota yrittäjän tuloista.",
+    en: "Appointment booking for wellness and beauty professionals. A flat monthly price or free — no commission on earnings.",
+  },
+  "work.ololla.tag": { fi: "Mökkivuokraus", en: "Cabin rentals" },
+  "work.ololla.desc": {
+    fi: "Mökit suoraan omistajilta. Läpinäkyvät hinnat, ei piilomaksuja — varaus ja maksu samassa paikassa.",
+    en: "Cabins directly from their owners. Transparent prices, no hidden fees — booking and payment in one place.",
+  },
+
+  "work.tail": {
+    fi: "Seuraava tuote on aina tekeillä.",
+    en: "The next product is always in the works.",
+  },
 
   // ── about ───────────────────────────────────────────────────────────
   "about.kicker": { fi: "Yhtiö", en: "Company" },
   "about.title": {
-    fi: "Pieni yhtiö,\nepätavallinen kokoonpano.",
-    en: "A small company,\nan unusual configuration.",
+    fi: "Pieni talo,\nharkittu kokoonpano.",
+    en: "A small studio,\na deliberate setup.",
   },
   "about.lede": {
-    fi: "RK9 AI on yhden ihmisen perustama suomalainen ohjelmistoyhtiö, jonka työvoima koostuu autonomisista AI-agenteista. Yhtiö testaa konkreettisesti, miten pitkälle tämä järjestely venyy.",
-    en: "RK9 AI is a Finnish software company founded by one person, with a workforce made of autonomous AI agents. The company is a practical test of how far that configuration stretches.",
+    fi: "RK9 AI on yhden perustajan suomalainen ohjelmistotalo Forssasta. Talo rakentaa omia tuotteita ja pitää koko ketjun — suunnittelun, kehityksen ja operoinnin — omissa käsissään.",
+    en: "RK9 AI is a founder-run Finnish software studio in Forssa. The studio builds its own products and keeps the whole chain — design, development, and operations — in its own hands.",
   },
 
   "about.story.kicker": { fi: "Tarina", en: "Story" },
   "about.story.title":  { fi: "Lyhyt versio", en: "The short version" },
   "about.story.p1": {
-    fi: "Alkuvuodesta 2025 yksi ihminen alkoi käyttää AI-työkaluja kokoamaan pieniä sivuprojekteja. Työkalut paranivat nopeammin kuin niitä ehdittiin testata.",
-    en: "In early 2025, one person started using AI tools to assemble small side projects. The tools improved faster than they could be tested.",
+    fi: "Alkuvuodesta 2025 sivuprojekteja alkoi valmistua nopeammin kuin niitä ehti suunnitella. Moderni työkalupakki muutti sen, mitä pieni tekijä saa aikaan.",
+    en: "In early 2025, side projects started shipping faster than they could be planned. A modern toolkit changed what a small builder can get done.",
   },
   "about.story.p2": {
-    fi: "Kun yksi agentti osasi viedä ominaisuuden ideasta tuotantoon ilman manuaalista välikättä, kysymys siirtyi: kuinka monta agenttia voi koordinoida samaan aikaan? Mikä on se rakenne, joka pitää homman koossa?",
-    en: "When one agent could take a feature from idea to production with no human in the middle, the question shifted: how many agents can you coordinate at once? What is the structure that holds it all together?",
+    fi: "Kun ensimmäinen palvelu kesti oikeat asiakkaat, kysymys vaihtui: montako tuotetta pieni talo voi pitää tuotannossa laadusta tinkimättä?",
+    en: "When the first service held up to real customers, the question changed: how many products can a small studio keep in production without cutting quality?",
   },
   "about.story.p3": {
-    fi: "Vastausta rakennettiin avoimesta Paperclip-alustasta. Tuotantohaara on raskaasti muokattu mutta perusta pidetään julkisena. Yhtiö on yhden hengen, mutta työvoima ei.",
-    en: "The answer was built on the open-source Paperclip platform. The production fork is heavily customised but the base is kept public. The company is one person; the workforce is not.",
+    fi: "Vastaus rakentui kurinalaisuudesta: yhteinen alusta, automatisoitu julkaisuputki ja AI-avusteinen kehitys. RK9 AI OY perustettiin alkuvuodesta 2026, ja tuotannossa on nyt kolme palvelua.",
+    en: "The answer was built on discipline: a shared platform, an automated release pipeline, and AI-assisted development. RK9 AI OY was incorporated in early 2026, and three services are now in production.",
   },
 
   "about.how.kicker": { fi: "Toimintamalli", en: "Operating model" },
   "about.how.title":  { fi: "Miten se toimii käytännössä", en: "How it works in practice" },
   "about.how.intro": {
-    fi: "Sama sykli toistuu joka päivä, joka palvelulle.",
-    en: "The same cycle repeats every day, for every service.",
+    fi: "Sama sykli toistuu joka palvelulle.",
+    en: "The same cycle repeats for every service.",
   },
-  "about.how.s1.t": { fi: "Ihminen asettaa suunnan", en: "Human sets direction" },
-  "about.how.s1.b": { fi: "Tavoitteet, strategia, eettiset rajat, isot tuotepäätökset. Hyväksyntäportit.", en: "Goals, strategy, ethical limits, big product calls. Approval gates." },
-  "about.how.s2.t": { fi: "Työnjohto orkestroi", en: "The works orchestrates" },
-  "about.how.s2.b": { fi: "Jokaisella palvelulla on org chart, projektit, tavoitteet, budjetti. Työnjohto jakaa työn agenteille.", en: "Each service has an org chart, projects, goals, and a budget. The works routes work to agents." },
-  // Variants for the same step on About
-  "about.how.s2.t.tyonjohto": { fi: "Työnjohto orkestroi", en: "The works orchestrates" },
-  "about.how.s2.b.tyonjohto": { fi: "Jokaisella palvelulla on org chart, projektit, tavoitteet, budjetti. Työnjohto jakaa työn agenteille.", en: "Each service has an org chart, projects, goals, and a budget. The works routes work to agents." },
-  "about.how.s2.t.hermosto":  { fi: "Hermosto välittää",      en: "The nervous system conducts" },
-  "about.how.s2.b.hermosto":  { fi: "Kuljettaa suunnan ihmiseltä agenteille ja raportit takaisin. Joka palvelulla on org chart, projektit ja budjetti.", en: "Carries direction from the human to the agents, and reports back. Each service has an org chart, projects, and a budget." },
-  "about.how.s2.t.os":        { fi: "Käyttöjärjestelmä orkestroi", en: "The operating system orchestrates" },
-  "about.how.s2.b.os":        { fi: "Avoin lähdekoodi pohjana, raskaasti muokattu. Org chartit per palvelu, budjetit ja audit-jäljet.", en: "Open-source base, heavily customised. Org charts per service, budgets, and audit trails." },
-  "about.how.s3.t": { fi: "Agentit toteuttavat",     en: "Agents execute" },
-  "about.how.s3.b": { fi: "Koodi, deploy, korjaukset, asiakaspalvelu, monitorointi, prospektointi. Käytännössä kaikki paitsi suunta.", en: "Code, deploys, fixes, support, monitoring, prospecting. In practice, everything except direction." },
-  "about.how.s4.t": { fi: "Ihminen tarkistaa",       en: "Human reviews" },
-  "about.how.s4.b": { fi: "Aamuraportti, satunnaisotanta, hyväksyntäportit isoille muutoksille.", en: "Morning report, random sampling, approval gates for big changes." },
+  "about.how.s1.t": { fi: "Idea ja rajaus", en: "Idea and scope" },
+  "about.how.s1.b": { fi: "Pieni rajaus, oikea markkina. Ensimmäinen versio viikoissa, ei kuukausissa.", en: "A tight scope, a real market. A first version in weeks, not months." },
+  "about.how.s2.t": { fi: "Rakennus", en: "Build" },
+  "about.how.s2.b": { fi: "Yhteinen alusta ja moderni työkalupakki: automaatio, AI-avusteinen kehitys, tiukat katselmoinnit.", en: "A shared platform and a modern toolkit: automation, AI-assisted development, strict reviews." },
+  "about.how.s3.t": { fi: "Julkaisu ja operointi", en: "Deploy and operate" },
+  "about.how.s3.b": { fi: "Palvelut hostataan Suomessa. Julkaisuputki, monitorointi ja varmuuskopiot ovat samaa järjestelmää.", en: "Services are hosted in Finland. The release pipeline, monitoring, and backups are one system." },
+  "about.how.s4.t": { fi: "Jatkuva parantaminen", en: "Continuous improvement" },
+  "about.how.s4.b": { fi: "Palaute tuotannosta ohjaa seuraavaa iteraatiota. Pieni talo kääntyy päivässä.", en: "Feedback from production drives the next iteration. A small studio turns around in a day." },
 
   "about.values.kicker": { fi: "Periaatteet", en: "Principles" },
   "about.values.title":  { fi: "Arvot",       en: "Values" },
-  "about.values.v1.t": { fi: "Autonomia ja vastuu",          en: "Autonomy with accountability" },
-  "about.values.v1.b": { fi: "Agentit saavat tehdä paljon. Siksi audit-jäljet, budjettikatto, ja ihmisen hyväksyntäportit isoille päätöksille.", en: "Agents are allowed to do a lot. Hence audit trails, budget caps, and human approval gates for the big decisions." },
+  "about.values.v1.t": { fi: "Kevyt rakenne, täysi vastuu",  en: "Light structure, full ownership" },
+  "about.values.v1.b": { fi: "Ei väliportaita. Sama talo, joka rakentaa palvelun, myös vastaa siitä joka aamu.", en: "No middle layers. The studio that builds a service also answers for it, every morning." },
   "about.values.v2.t": { fi: "Oikeat tuotteet, ei demoja",   en: "Real products, not demos" },
   "about.values.v2.b": { fi: "Tuotannossa, oikeilla asiakkailla. Ei kuvakaappauksia LinkedInissä.", en: "In production, with real customers. Not screenshots on LinkedIn." },
   "about.values.v3.t": { fi: "Avointa lähdekoodia missä mahdollista", en: "Open source where possible" },
-  "about.values.v3.b": { fi: "Paperclip on MIT-lisenssillä. Tuotantohaara on yksityinen, mutta perusta jaetaan.", en: "Paperclip is MIT-licensed. The production fork is private, but the base is shared back." },
+  "about.values.v3.b": { fi: "Talon työkaluja julkaistaan MIT-lisenssillä — myös tämä sivusto. Tuotteet ovat omia, perusta jaetaan.", en: "The studio's tooling is released under MIT — this site included. The products are ours, the base is shared." },
   "about.values.v4.t": { fi: "Suomalainen pragmatismi",      en: "Finnish pragmatism" },
   "about.values.v4.b": { fi: "Rakenna, mittaa, iteroi. Numerot puhukoot.", en: "Build it, measure it, iterate. Let the numbers speak." },
 
@@ -173,8 +191,8 @@ export const COPY = {
     en: "One email,\none person.",
   },
   "contact.lede": {
-    fi: "Vastaus saattaa tulla agentilta, mutta sähköposti tulee ihmiselle. Yritämme vastata kahden työpäivän kuluessa.",
-    en: "The reply may be drafted by an agent, but the email goes to a human. We try to respond within two business days.",
+    fi: "Sähköposti menee suoraan perustajalle. Vastaamme 1–2 arkipäivän kuluessa.",
+    en: "Email goes straight to the founder. We reply within 1–2 business days.",
   },
   "contact.founder": { fi: "Perustaja",  en: "Founder" },
   "contact.email":   { fi: "Sähköposti", en: "Email" },
@@ -210,8 +228,8 @@ export const COPY = {
 
   // ── footer ──────────────────────────────────────────────────────────
   "footer.colophon": {
-    fi: "Sivusto on yhden ihmisen ja koneellisen miehistön yhteistyö. Lähdekoodi on tarkastettavissa pyynnöstä.",
-    en: "This site is the work of one person and a machine workforce. Source available on request.",
+    fi: "RK9 AI on pieni suomalainen ohjelmistotalo, joka rakentaa ja operoi omia digitaalisia palveluja. Tämän sivuston lähdekoodi on julkinen.",
+    en: "RK9 AI is a small Finnish software studio that builds and operates its own digital services. This site's source code is public.",
   },
   "footer.imprint": {
     fi: "© 2026 RK9 AI OY · Forssa",
