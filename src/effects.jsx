@@ -100,44 +100,89 @@ export function CoordsHud({ route }) {
 }
 
 // ── Vault graph sphere ──────────────────────────────────────────────
-// A rotating 3D knowledge graph (Obsidian-style): notes as points on a
-// sphere, links as hairline edges, a few hub notes below the surface.
-// Plain canvas 2D with a hand-rolled projection — no dependencies.
-// Drag to spin (with inertia); honors prefers-reduced-motion.
-const GRAPH_SURFACE = 196;
-const GRAPH_HUBS = 7;
+// A rotating 3D knowledge graph in the spirit of Obsidian's graph view:
+// a dark field, hundreds of light notes clumped into clusters around hub
+// notes, hairline links, and a few amber-tinted clusters. Plain canvas
+// 2D with a hand-rolled projection — no dependencies. Drag to spin
+// (with inertia); honors prefers-reduced-motion.
+const CLUSTERS = 16;
+const LOOSE_NODES = 150;
 
 function buildGraph() {
-  // Deterministic-ish jitter keeps the layout stable across remounts.
   const nodes = [];
   const golden = Math.PI * (3 - Math.sqrt(5));
-  for (let i = 0; i < GRAPH_SURFACE; i++) {
-    const y = 1 - (i / (GRAPH_SURFACE - 1)) * 2;
+
+  // Normalize a point to a spherical shell with slight thickness.
+  const onShell = (x, y, z, shell) => {
+    const len = Math.hypot(x, y, z) || 1;
+    const r = shell * (0.94 + Math.random() * 0.1);
+    return { x: x / len * r, y: y / len * r, z: z / len * r };
+  };
+
+  // Cluster hubs spread over the sphere (fibonacci + jitter).
+  for (let c = 0; c < CLUSTERS; c++) {
+    const y = 1 - (c / (CLUSTERS - 1)) * 2;
     const rr = Math.sqrt(Math.max(0, 1 - y * y));
-    const th = i * golden;
-    const jitter = 0.97 + ((i * 37) % 11) / 11 * 0.07;
+    const th = c * golden * 5 + 0.9;
+    const p = onShell(
+      Math.cos(th) * rr + (Math.random() - 0.5) * 0.2,
+      y + (Math.random() - 0.5) * 0.2,
+      Math.sin(th) * rr + (Math.random() - 0.5) * 0.2,
+      1
+    );
+    // Roughly a fifth of the clusters are amber — like a tag group.
+    const amber = c % 5 === 1;
     nodes.push({
-      x: Math.cos(th) * rr * jitter,
-      y: y * jitter,
-      z: Math.sin(th) * rr * jitter,
-      w: i % 19 === 0 ? 2.4 : i % 7 === 0 ? 1.6 : 1,
-      phase: ((i * 73) % 100) / 100 * Math.PI * 2,
-      accent: i % 23 === 0,
+      ...p,
+      w: 2.6 + Math.random() * 1.6,
+      phase: Math.random() * Math.PI * 2,
+      amber,
+      hub: true,
+      cluster: c,
     });
   }
-  // Hubs: larger notes sitting below the surface.
-  for (let i = 0; i < GRAPH_HUBS; i++) {
-    const y = 1 - (i / (GRAPH_HUBS - 1)) * 2;
+
+  // Satellites sprayed around each hub.
+  for (let c = 0; c < CLUSTERS; c++) {
+    const hub = nodes[c];
+    const count = 20 + Math.floor(Math.random() * 24);
+    const spread = 0.18 + Math.random() * 0.28;
+    for (let s = 0; s < count; s++) {
+      const p = onShell(
+        hub.x + (Math.random() - 0.5) * 2 * spread,
+        hub.y + (Math.random() - 0.5) * 2 * spread,
+        hub.z + (Math.random() - 0.5) * 2 * spread,
+        1
+      );
+      nodes.push({
+        ...p,
+        w: 0.7 + Math.random() * (Math.random() < 0.12 ? 1.8 : 0.8),
+        phase: Math.random() * Math.PI * 2,
+        amber: hub.amber ? Math.random() < 0.75 : Math.random() < 0.03,
+        hub: false,
+        cluster: c,
+      });
+    }
+  }
+
+  // Loose notes filling the gaps.
+  for (let i = 0; i < LOOSE_NODES; i++) {
+    const y = 1 - (i / (LOOSE_NODES - 1)) * 2;
     const rr = Math.sqrt(Math.max(0, 1 - y * y));
-    const th = i * golden * 9 + 1.3;
+    const th = i * golden * 3 + 2.2;
+    const p = onShell(
+      Math.cos(th) * rr + (Math.random() - 0.5) * 0.3,
+      y + (Math.random() - 0.5) * 0.3,
+      Math.sin(th) * rr + (Math.random() - 0.5) * 0.3,
+      1
+    );
     nodes.push({
-      x: Math.cos(th) * rr * 0.55,
-      y: y * 0.55,
-      z: Math.sin(th) * rr * 0.55,
-      w: 3.2,
-      phase: i,
-      accent: false,
-      hub: true,
+      ...p,
+      w: 0.6 + Math.random() * 0.7,
+      phase: Math.random() * Math.PI * 2,
+      amber: Math.random() < 0.06,
+      hub: false,
+      cluster: -1,
     });
   }
 
@@ -148,29 +193,36 @@ function buildGraph() {
   const edgeSet = new Set();
   const edges = [];
   const addEdge = (i, j) => {
+    if (i === j) return;
     const key = i < j ? i + "-" + j : j + "-" + i;
     if (edgeSet.has(key)) return;
     edgeSet.add(key);
     edges.push([i, j]);
   };
-  // Surface notes: link to their 2 nearest surface neighbors.
-  for (let i = 0; i < GRAPH_SURFACE; i++) {
+  const nearest = (i, pool, k) => {
     const near = [];
-    for (let j = 0; j < GRAPH_SURFACE; j++) {
-      if (i === j) continue;
+    for (const j of pool) {
+      if (j === i) continue;
       near.push([dist2(nodes[i], nodes[j]), j]);
     }
     near.sort((a, b) => a[0] - b[0]);
-    addEdge(i, near[0][1]);
-    addEdge(i, near[1][1]);
+    return near.slice(0, k).map(n => n[1]);
+  };
+
+  const all = nodes.map((_, i) => i);
+  for (let i = 0; i < nodes.length; i++) {
+    const n = nodes[i];
+    if (n.hub) continue;
+    // Spoke to the cluster hub (most satellites), or to the nearest note.
+    if (n.cluster >= 0 && Math.random() < 0.8) addEdge(i, n.cluster);
+    for (const j of nearest(i, all, Math.random() < 0.35 ? 2 : 1)) addEdge(i, j);
   }
-  // Hubs: link to their 6 nearest surface notes and the next hub.
-  for (let h = GRAPH_SURFACE; h < nodes.length; h++) {
-    const near = [];
-    for (let j = 0; j < GRAPH_SURFACE; j++) near.push([dist2(nodes[h], nodes[j]), j]);
-    near.sort((a, b) => a[0] - b[0]);
-    for (let k = 0; k < 6; k++) addEdge(h, near[k][1]);
-    if (h + 1 < nodes.length) addEdge(h, h + 1);
+  // Hubs: link to the 2 nearest hubs — the backbone.
+  const hubIdx = all.slice(0, CLUSTERS);
+  for (const h of hubIdx) for (const j of nearest(h, hubIdx, 2)) addEdge(h, j);
+  // A handful of long cross-links between clusters — the connective fuzz.
+  for (let k = 0; k < 50; k++) {
+    addEdge(Math.floor(Math.random() * nodes.length), Math.floor(Math.random() * nodes.length));
   }
   return { nodes, edges };
 }
@@ -205,11 +257,6 @@ export function VaultGraph() {
     const ro = new ResizeObserver(() => { resize(); if (reduced) drawFrame(performance.now()); });
     ro.observe(wrap);
 
-    function cssvar(name, fallback) {
-      const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-      return v || fallback;
-    }
-
     // Rotation state — auto spin + drag with inertia.
     let yaw = 0.6;
     let pitch = 0.32;
@@ -229,8 +276,9 @@ export function VaultGraph() {
       // Skip frames before the wrap has a real size (e.g. mid-remount on
       // language switch) — avoids transient negative/zero radii.
       if (w <= 0 || h <= 0) return;
-      const ink = cssvar("--ink", "#181f1a");
-      const accent = cssvar("--accent", "#2d5f4f");
+      // Light notes and an Obsidian-style amber tint on the dark field.
+      const note = "#e8e6d5";
+      const amber = "#c98f4b";
 
       ctx.clearRect(0, 0, w, h);
       const cx = w * 0.5, cy = h * 0.52;
@@ -260,22 +308,24 @@ export function VaultGraph() {
 
       // Halo ring behind the sphere — ties the globe to the page frame.
       ctx.save();
-      ctx.strokeStyle = ink;
-      ctx.globalAlpha = 0.10;
+      ctx.strokeStyle = note;
+      ctx.globalAlpha = 0.07;
       ctx.setLineDash([2, 6]);
       ctx.beginPath();
       ctx.arc(cx, cy, Math.max(0, R * 1.12), 0, Math.PI * 2);
       ctx.stroke();
       ctx.restore();
 
-      // Edges — hairlines, faded by depth.
+      // Edges — hairlines, faded by depth; amber links stay amber.
       ctx.lineWidth = 1;
       for (let e = 0; e < edges.length; e++) {
-        const a = proj[edges[e][0]], b = proj[edges[e][1]];
+        const i0 = edges[e][0], i1 = edges[e][1];
+        const a = proj[i0], b = proj[i1];
         const d = (a.depth + b.depth) / 2;
+        const isAmber = nodes[i0].amber && nodes[i1].amber;
         ctx.save();
-        ctx.strokeStyle = ink;
-        ctx.globalAlpha = 0.05 + Math.pow(d, 1.8) * 0.26;
+        ctx.strokeStyle = isAmber ? amber : note;
+        ctx.globalAlpha = (isAmber ? 0.06 : 0.035) + Math.pow(d, 1.5) * (isAmber ? 0.22 : 0.13);
         ctx.beginPath();
         ctx.moveTo(a.x, a.y);
         ctx.lineTo(b.x, b.y);
@@ -284,7 +334,7 @@ export function VaultGraph() {
       }
 
       // Signals — a link lights up and a dot travels along it.
-      if (!reduced && now - lastSignal > 1300 && signals.length < 4) {
+      if (!reduced && now - lastSignal > 900 && signals.length < 6) {
         signals.push({ edge: edges[Math.floor(Math.random() * edges.length)], t: 0, dur: 1100 });
         lastSignal = now;
       }
@@ -298,16 +348,16 @@ export function VaultGraph() {
         const px = a.x + (b.x - a.x) * tf;
         const py = a.y + (b.y - a.y) * tf;
         ctx.save();
-        ctx.strokeStyle = accent;
-        ctx.globalAlpha = (1 - Math.abs(tf - 0.5) * 2) * (0.15 + d * 0.4);
+        ctx.strokeStyle = amber;
+        ctx.globalAlpha = (1 - Math.abs(tf - 0.5) * 2) * (0.1 + d * 0.35);
         ctx.beginPath();
         ctx.moveTo(a.x, a.y);
         ctx.lineTo(b.x, b.y);
         ctx.stroke();
-        ctx.fillStyle = accent;
-        ctx.globalAlpha = (1 - Math.abs(tf - 0.5) * 2) * (0.3 + d * 0.6);
+        ctx.fillStyle = amber;
+        ctx.globalAlpha = (1 - Math.abs(tf - 0.5) * 2) * (0.35 + d * 0.6);
         ctx.beginPath();
-        ctx.arc(px, py, Math.max(0, 1.6 * a.persp), 0, Math.PI * 2);
+        ctx.arc(px, py, Math.max(0, 1.7 * a.persp), 0, Math.PI * 2);
         ctx.fill();
         ctx.restore();
       }
@@ -320,28 +370,23 @@ export function VaultGraph() {
         const i = order[k];
         const n = nodes[i];
         const p = proj[i];
-        const breathe = reduced ? 0.5 : (Math.sin(now / 1400 + n.phase) + 1) / 2;
-        const r = Math.max(0.4, (0.9 + n.w * 0.85) * (0.5 + 0.5 * p.depth) * p.persp);
+        const breathe = reduced ? 0.5 : (Math.sin(now / 1600 + n.phase) + 1) / 2;
+        const r = Math.max(0.35, (0.8 + n.w * 1.05) * (0.45 + 0.55 * p.depth) * p.persp);
+        const col = n.amber ? amber : note;
         ctx.save();
-        if (n.accent) {
-          ctx.fillStyle = accent;
-          ctx.globalAlpha = (0.25 + Math.pow(p.depth, 1.4) * 0.65) * (0.6 + breathe * 0.4);
-        } else {
-          ctx.fillStyle = ink;
-          ctx.globalAlpha = (0.14 + Math.pow(p.depth, 1.5) * 0.8) * (n.hub ? 0.9 : 0.75 + breathe * 0.25);
+        // Soft glow under the bigger notes — the Obsidian shimmer.
+        if (n.w > 1.6) {
+          ctx.fillStyle = col;
+          ctx.globalAlpha = (0.03 + Math.pow(p.depth, 1.6) * 0.09) * (0.7 + breathe * 0.3);
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, r * 2.6, 0, Math.PI * 2);
+          ctx.fill();
         }
+        ctx.fillStyle = col;
+        ctx.globalAlpha = (0.17 + Math.pow(p.depth, 1.4) * 0.78) * (n.hub ? 0.95 : 0.7 + breathe * 0.3);
         ctx.beginPath();
         ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
         ctx.fill();
-        // Hub notes get a thin halo ring, like an open node in a graph view.
-        if (n.hub) {
-          ctx.strokeStyle = ink;
-          ctx.lineWidth = 1;
-          ctx.globalAlpha = 0.12 + p.depth * 0.3;
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, Math.max(0, r + 3.5 * p.persp), 0, Math.PI * 2);
-          ctx.stroke();
-        }
         ctx.restore();
       }
     }

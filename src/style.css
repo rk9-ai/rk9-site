@@ -420,11 +420,16 @@ button { font: inherit; }
   aspect-ratio: 5 / 4;
   max-height: 520px;
   min-height: 360px;
-  background: var(--surface);
+  /* dark field, like a graph view — a deliberate hole in the paper page */
+  background: radial-gradient(ellipse at 50% 45%, #20261f 0%, #151a15 62%, #10140f 100%);
   border: 1px solid var(--rule);
   overflow: hidden;
   flex: 0 0 auto;
 }
+.vault-graph-label,
+.vault-graph .mono { color: rgba(236, 234, 217, 0.78); }
+.vault-graph .mono.dim { color: rgba(236, 234, 217, 0.42); }
+.vault-graph .vault-graph-corner { color: rgba(236, 234, 217, 0.4); }
 @media (max-width: 520px) {
   /* min-height + aspect-ratio would otherwise force the box wider than
      the viewport (450px) and stretch the whole hero grid */

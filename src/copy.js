@@ -17,7 +17,7 @@ export const COPY = {
 
   "home.hero.title": {
     fi: "Pieni talo.\nIso jälki.",
-    en: "A small studio.\nA big footprint.",
+    en: "Small studio.\nBig footprint.",
   },
   "home.hero.subtitle": {
     fi: "RK9 AI on pieni, moderni ja ketterä suomalainen ohjelmistotalo. Rakennamme ja operoimme omia digitaalisia palveluja — suunnittelusta tuotantoon, itse.",
