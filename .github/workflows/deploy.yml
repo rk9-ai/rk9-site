@@ -132,8 +132,10 @@ jobs:
           ssh -i ~/.ssh/deploy_key ${DEPLOY_USER}@${DEPLOY_HOST} bash -s <<'REMOTE'
           set -euo pipefail
           HTML=$(curl -sSf -m 10 http://localhost:3050/)
-          echo "$HTML" | grep -q 'id="root"' || { echo "::error::homepage missing #root"; exit 1; }
-          ASSETS=$(echo "$HTML" | grep -oE '/assets/[^"]+\.(js|css)' | sort -u)
+          echo "$HTML" | grep -q 'id="stage"' || { echo "::error::homepage missing #stage (home.html)"; exit 1; }
+          CLASSIC=$(curl -sSf -m 10 http://localhost:3050/classic)
+          echo "$CLASSIC" | grep -q 'id="root"' || { echo "::error::/classic missing #root (SPA fallback)"; exit 1; }
+          ASSETS=$(echo "$CLASSIC" | grep -oE '/assets/[^"]+\.(js|css)' | sort -u)
           FAILED=0
           while IFS= read -r a; do
             [ -z "$a" ] && continue
@@ -141,7 +143,7 @@ jobs:
             [ "$S" = "200" ] || { echo "FAIL ${a} (HTTP ${S})"; FAILED=$((FAILED+1)); }
           done <<< "$ASSETS"
           [ "$FAILED" -eq 0 ] || { echo "::error::${FAILED} missing assets"; exit 1; }
-          echo "Homepage + all assets resolve."
+          echo "Homepage + /classic + all assets resolve."
           REMOTE
 
       - name: Cleanup SSH key
