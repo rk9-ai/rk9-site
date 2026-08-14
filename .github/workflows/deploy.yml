@@ -131,8 +131,14 @@ jobs:
         run: |
           ssh -i ~/.ssh/deploy_key ${DEPLOY_USER}@${DEPLOY_HOST} bash -s <<'REMOTE'
           set -euo pipefail
-          HTML=$(curl -sSf -m 10 http://localhost:3050/)
-          echo "$HTML" | grep -q 'id="stage"' || { echo "::error::homepage missing #stage (home.html)"; exit 1; }
+          # Retry: right after a compose recreate the first request can still
+          # race the container swap (seen on run 31848778126).
+          for i in 1 2 3 4 5; do
+            HTML=$(curl -sSf -m 10 http://localhost:3050/ || true)
+            echo "$HTML" | grep -q 'id="stage"' && break
+            [ "$i" = 5 ] && { echo "::error::homepage missing #stage (home.html)"; exit 1; }
+            sleep 4
+          done
           CLASSIC=$(curl -sSf -m 10 http://localhost:3050/classic)
           echo "$CLASSIC" | grep -q 'id="root"' || { echo "::error::/classic missing #root (SPA fallback)"; exit 1; }
           ASSETS=$(echo "$CLASSIC" | grep -oE '/assets/[^"]+\.(js|css)' | sort -u)
