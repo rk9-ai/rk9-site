@@ -3,9 +3,14 @@
 # self-contained single HTML file with fonts and scripts inlined).
 
 FROM nginx:alpine
-# Container nginx: gzip, no-cache on HTML, /healthz.
+# Container nginx: gzip, no-cache on HTML, /healthz, /version.
 COPY deploy/nginx/container.conf /etc/nginx/conf.d/default.conf
 COPY site/ /usr/share/nginx/html/
+
+# Deployed git sha, exposed at /version so the deploy smoke check can wait
+# for THIS build to actually be serving before asserting content.
+ARG GIT_SHA=dev
+RUN printf '%s' "$GIT_SHA" > /usr/share/nginx/html/version.txt
 
 EXPOSE 80
 HEALTHCHECK --interval=10s --timeout=3s --retries=3 --start-period=5s \

@@ -74,6 +74,7 @@ jobs:
           docker build \
             --label "org.opencontainers.image.source=https://github.com/${GITHUB_REPO}" \
             --label "org.opencontainers.image.revision=${GITHUB_SHA_VAL}" \
+            --build-arg GIT_SHA="${GITHUB_SHA_VAL}" \
             -t "$FULL_IMAGE" \
             -t "${IMAGE_NAME}:env-prod" \
             .
@@ -129,24 +130,30 @@ jobs:
 
       - name: Smoke check pages
         run: |
-          ssh -i ~/.ssh/deploy_key ${DEPLOY_USER}@${DEPLOY_HOST} bash -s <<'REMOTE'
+          ssh -i ~/.ssh/deploy_key ${DEPLOY_USER}@${DEPLOY_HOST} \
+            GIT_SHA="$GIT_SHA" bash -s <<'REMOTE'
           set -euo pipefail
-          # Retry: right after a compose recreate the first request can still
-          # race the container swap (seen on run 31848778126).
-          for i in 1 2 3 4 5; do
-            HTML=$(curl -sSf -m 10 http://localhost:3050/ || true)
-            echo "$HTML" | grep -q 'id="stage"' && break
-            [ "$i" = 5 ] && { echo "::error::homepage missing #stage"; exit 1; }
+          # First wait until THIS build is actually the one serving :3050 —
+          # right after a compose recreate requests can briefly hit the
+          # previous container (seen on runs 31848778126 and 31875434470).
+          for i in $(seq 1 15); do
+            V=$(curl -s -m 5 http://localhost:3050/version || true)
+            [ "$V" = "$GIT_SHA" ] && break
+            [ "$i" = 15 ] && { echo "::error::deployed version '${V}' never became ${GIT_SHA}"; exit 1; }
             sleep 4
           done
+          curl -sSf -m 10 http://localhost:3050/ | grep -q 'id="stage"' \
+            || { echo "::error::homepage missing #stage"; exit 1; }
           curl -sSf -m 10 http://localhost:3050/tietosuoja | grep -q 'Tietosuojaseloste' \
             || { echo "::error::/tietosuoja missing"; exit 1; }
           OG=$(curl -sI -o /dev/null -w '%{http_code}' -m 10 http://localhost:3050/og.jpg || echo 000)
           [ "$OG" = "200" ] || { echo "::error::/og.jpg HTTP ${OG}"; exit 1; }
           CL=$(curl -s -o /dev/null -w '%{http_code}' -m 10 http://localhost:3050/classic || echo 000)
           [ "$CL" = "301" ] || { echo "::error::/classic should 301, got ${CL}"; exit 1; }
-          echo "Homepage + /tietosuoja + /og.jpg + /classic redirect resolve."
+          echo "Version ${GIT_SHA} live; homepage + /tietosuoja + /og.jpg + /classic resolve."
           REMOTE
+        env:
+          GIT_SHA: ${{ github.sha }}
 
       - name: Cleanup SSH key
         if: always()
