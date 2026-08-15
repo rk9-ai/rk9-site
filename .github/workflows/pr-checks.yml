@@ -6,17 +6,17 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    name: build
+  check:
+    name: check
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-      - run: npm ci
-      - run: npm run build
-      - name: Assert dist output
-        run: test -f dist/index.html && test -f dist/home.html && test -d dist/assets
+      - name: Assert site files
+        run: |
+          test -f site/index.html
+          test -f site/tietosuoja.html
+          test -f site/og.jpg
+          grep -q 'id="stage"' site/index.html
+          grep -q 'Tietosuojaseloste' site/tietosuoja.html
+          grep -q 'og:image' site/index.html

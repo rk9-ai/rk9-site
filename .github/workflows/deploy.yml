@@ -127,7 +127,7 @@ jobs:
           health_url: http://${{ env.DEPLOY_HOST }}:3050/healthz
           timeout_s: 90
 
-      - name: Smoke check homepage + assets
+      - name: Smoke check pages
         run: |
           ssh -i ~/.ssh/deploy_key ${DEPLOY_USER}@${DEPLOY_HOST} bash -s <<'REMOTE'
           set -euo pipefail
@@ -136,20 +136,16 @@ jobs:
           for i in 1 2 3 4 5; do
             HTML=$(curl -sSf -m 10 http://localhost:3050/ || true)
             echo "$HTML" | grep -q 'id="stage"' && break
-            [ "$i" = 5 ] && { echo "::error::homepage missing #stage (home.html)"; exit 1; }
+            [ "$i" = 5 ] && { echo "::error::homepage missing #stage"; exit 1; }
             sleep 4
           done
-          CLASSIC=$(curl -sSf -m 10 http://localhost:3050/classic)
-          echo "$CLASSIC" | grep -q 'id="root"' || { echo "::error::/classic missing #root (SPA fallback)"; exit 1; }
-          ASSETS=$(echo "$CLASSIC" | grep -oE '/assets/[^"]+\.(js|css)' | sort -u)
-          FAILED=0
-          while IFS= read -r a; do
-            [ -z "$a" ] && continue
-            S=$(curl -sI -o /dev/null -w '%{http_code}' -m 10 "http://localhost:3050${a}" || echo 000)
-            [ "$S" = "200" ] || { echo "FAIL ${a} (HTTP ${S})"; FAILED=$((FAILED+1)); }
-          done <<< "$ASSETS"
-          [ "$FAILED" -eq 0 ] || { echo "::error::${FAILED} missing assets"; exit 1; }
-          echo "Homepage + /classic + all assets resolve."
+          curl -sSf -m 10 http://localhost:3050/tietosuoja | grep -q 'Tietosuojaseloste' \
+            || { echo "::error::/tietosuoja missing"; exit 1; }
+          OG=$(curl -sI -o /dev/null -w '%{http_code}' -m 10 http://localhost:3050/og.jpg || echo 000)
+          [ "$OG" = "200" ] || { echo "::error::/og.jpg HTTP ${OG}"; exit 1; }
+          CL=$(curl -s -o /dev/null -w '%{http_code}' -m 10 http://localhost:3050/classic || echo 000)
+          [ "$CL" = "301" ] || { echo "::error::/classic should 301, got ${CL}"; exit 1; }
+          echo "Homepage + /tietosuoja + /og.jpg + /classic redirect resolve."
           REMOTE
 
       - name: Cleanup SSH key
