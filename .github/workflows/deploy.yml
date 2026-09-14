@@ -142,9 +142,12 @@ jobs:
             [ "$i" = 15 ] && { echo "::error::deployed version '${V}' never became ${GIT_SHA}"; exit 1; }
             sleep 4
           done
-          curl -sSf -m 10 http://localhost:3050/ | grep -q 'id="stage"' \
+          # NOTE: no `curl | grep -q` here — with pipefail, grep -q closes the
+          # pipe on the first match and curl exits 23 (EPIPE) once the page is
+          # larger than the pipe buffer (homepage ~186 kB; run 34854571258).
+          curl -sSf -m 10 http://localhost:3050/ | grep -c 'id="stage"' >/dev/null \
             || { echo "::error::homepage missing #stage"; exit 1; }
-          curl -sSf -m 10 http://localhost:3050/tietosuoja | grep -q 'Tietosuojaseloste' \
+          curl -sSf -m 10 http://localhost:3050/tietosuoja | grep -c 'Tietosuojaseloste' >/dev/null \
             || { echo "::error::/tietosuoja missing"; exit 1; }
           OG=$(curl -sI -o /dev/null -w '%{http_code}' -m 10 http://localhost:3050/og.jpg || echo 000)
           [ "$OG" = "200" ] || { echo "::error::/og.jpg HTTP ${OG}"; exit 1; }
