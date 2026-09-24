@@ -20,3 +20,7 @@ jobs:
           grep -q 'id="stage"' site/index.html
           grep -q 'Tietosuojaseloste' site/tietosuoja.html
           grep -q 'og:image' site/index.html
+          grep -q '^Sitemap: https://rk9.fi/sitemap.xml$' site/robots.txt
+          python3 -c "import xml.dom.minidom,sys; xml.dom.minidom.parse('site/sitemap.xml')"
+          # Every sitemap URL must match a canonical declared by a page.
+          for u in $(grep -o '<loc>[^<]*' site/sitemap.xml | sed 's/<loc>//'); do grep -q "rel=\"canonical\" href=\"$u\"" site/*.html || { echo "no page declares canonical $u"; exit 1; }; done
