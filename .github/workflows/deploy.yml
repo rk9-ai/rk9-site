@@ -149,11 +149,13 @@ jobs:
             || { echo "::error::homepage missing #stage"; exit 1; }
           curl -sSf -m 10 http://localhost:3050/tietosuoja | grep -c 'Tietosuojaseloste' >/dev/null \
             || { echo "::error::/tietosuoja missing"; exit 1; }
+          curl -sSf -m 10 http://localhost:3050/selitys | grep -c 'id="stage"' >/dev/null \
+            || { echo "::error::/selitys missing (expected 200 with #stage)"; exit 1; }
           OG=$(curl -sI -o /dev/null -w '%{http_code}' -m 10 http://localhost:3050/og.jpg || echo 000)
           [ "$OG" = "200" ] || { echo "::error::/og.jpg HTTP ${OG}"; exit 1; }
           CL=$(curl -s -o /dev/null -w '%{http_code}' -m 10 http://localhost:3050/classic || echo 000)
           [ "$CL" = "301" ] || { echo "::error::/classic should 301, got ${CL}"; exit 1; }
-          echo "Version ${GIT_SHA} live; homepage + /tietosuoja + /og.jpg + /classic resolve."
+          echo "Version ${GIT_SHA} live; homepage + /tietosuoja + /selitys + /og.jpg + /classic resolve."
           REMOTE
         env:
           GIT_SHA: ${{ github.sha }}
