@@ -190,14 +190,22 @@ h2.display{font-size:clamp(2.2rem,4.6vw,4rem)}
 .sec .half.rev>.txt{grid-column:2}
 @media(max-width:980px){.sec .half{grid-template-columns:1fr}.sec .half.rev>.txt{grid-column:1}}
 
-/* how — steps (a real sequence: 01→03) */
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:6vh}
-.step{padding:26px 24px 30px;border-radius:4px;background:var(--bg);
-  border:1px solid var(--rule)}
-.step .idx{font-family:var(--f-m);font-size:10px;letter-spacing:.2em;color:var(--dim)}
-.step h3{font-weight:800;letter-spacing:-.03em;font-size:1.7rem;line-height:1.05;margin:14px 0 10px}
-.step p{color:var(--soft);font-size:.95rem}
-@media(max-width:820px){.steps{grid-template-columns:1fr}}
+/* how — the cycle as a list; with the particle ring running (html.gl) the
+   phase that matches the amber node is lit and the others step back */
+.steps{list-style:none;margin-top:30px;display:grid;gap:4px;max-width:32rem}
+.steps li{padding:10px 0 10px 20px;border-left:2px solid var(--rule);
+  transition:border-color .4s,opacity .4s}
+.steps h3{font-weight:700;font-size:1.2rem;line-height:1.2;letter-spacing:-.02em;margin-bottom:4px}
+.steps p{color:var(--soft);font-size:1rem;line-height:1.5}
+.gl .steps li.on{border-left-color:var(--sun)}
+.fb{margin-top:26px;font-weight:800;font-size:1.35rem;line-height:1.15;letter-spacing:-.02em}
+@media(min-width:981px){
+  .gl .steps li{opacity:.45}
+  .gl .steps li.on{opacity:1}
+  /* desktop: the line lands in the middle of the ring (positioned by JS) */
+  .gl .fb{position:absolute;left:0;top:0;margin:0;width:12em;text-align:center;
+    transform:translate(-50%,-50%);font-size:clamp(1.25rem,1.8vw,1.6rem);opacity:0;pointer-events:none}
+}
 
 /* work panels */
 .work-panel{min-height:96svh;display:flex;align-items:center;padding:10vh 6vw}
@@ -359,27 +367,24 @@ body.finecursor #cur,body.finecursor #curring{opacity:1}
   </section>
 
   <!-- 3 · HOW -->
-  <section class="sec" id="miten" data-scene="3" data-label="Miten|How">
-    <div class="wrap">
-      <div class="shead" style="text-align:center;margin-inline:auto">
-        <h2 class="display rv" data-d="1" data-i="how.title">Suunnittele, rakenna, operoi.</h2>
-        <p class="lede rv" data-d="2" style="margin-inline:auto" data-i="how.intro">Sama sykli joka palvelulle — ja sama talo vastaa jokaisesta vaiheesta.</p>
-      </div>
-      <div class="steps">
-        <div class="step rv" data-d="1">
-          <span class="idx">01 / 03</span>
-          <h3 data-i="how.s1.t">Suunnittele</h3>
-          <p data-i="how.s1.b">Idea validoidaan oikealla markkinalla, ei kalvoilla. Pieni rajaus, ensimmäinen versio viikoissa.</p>
-        </div>
-        <div class="step rv" data-d="2">
-          <span class="idx">02 / 03</span>
-          <h3 data-i="how.s2.t">Rakenna</h3>
-          <p data-i="how.s2.b">Tuotantokelpoista koodia pienellä kokoonpanolla. Automaatio ja AI-avusteinen kehitys nopeuttavat; ihminen vastaa laadusta.</p>
-        </div>
-        <div class="step rv" data-d="3">
-          <span class="idx">03 / 03</span>
-          <h3 data-i="how.s3.t">Operoi</h3>
-          <p data-i="how.s3.b">Julkaisut, monitorointi, asiakaspalvelu ja jatkokehitys. Palvelut hostataan Suomessa ja pidetään kunnossa itse.</p>
+  <section class="sec tall" id="miten" data-scene="3" data-label="Miten|How">
+    <div class="pin">
+      <div class="wrap">
+        <div class="half">
+          <div class="txt">
+            <h2 class="display rv" data-i="how.title">Suunnittele, rakenna, operoi.</h2>
+            <div style="height:18px"></div>
+            <p class="lede rv" data-d="1" data-i="how.intro">Sama sykli joka palvelulle — ja sama talo vastaa jokaisesta vaiheesta.</p>
+            <ol class="steps rv" data-d="2" id="steps">
+              <li><h3 data-i="how.s1.t">Suunnittele</h3>
+                <p data-i="how.s1.b">Idea validoidaan oikealla markkinalla, ei kalvoilla. Pieni rajaus, ensimmäinen versio viikoissa.</p></li>
+              <li><h3 data-i="how.s2.t">Rakenna</h3>
+                <p data-i="how.s2.b">Tuotantokelpoista koodia pienellä kokoonpanolla. Automaatio ja AI-avusteinen kehitys nopeuttavat; ihminen vastaa laadusta.</p></li>
+              <li><h3 data-i="how.s3.t">Operoi</h3>
+                <p data-i="how.s3.b">Julkaisut, monitorointi, asiakaspalvelu ja jatkokehitys. Palvelut hostataan Suomessa ja pidetään kunnossa itse.</p></li>
+            </ol>
+            <p class="fb" id="fb" data-i="how.fb">Palaute kulkee päivässä.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -524,6 +529,7 @@ const I18N = {
   "how.s3.t":        ["Operoi","Operate"],
   "how.s3.b":        ["Julkaisut, monitorointi, asiakaspalvelu ja jatkokehitys. Palvelut hostataan Suomessa ja pidetään kunnossa itse.",
                       "Deploys, monitoring, support, and further development. Services are hosted in Finland and kept healthy in-house."],
+  "how.fb":          ["Palaute kulkee päivässä.","Feedback arrives in a day."],
   "work.sunspot.tag":["Reaaliaikainen kaupunkikartta","Real-time city map"],
   "work.sunspot.desc":["Näyttää kartalla, mille Helsingin terasseille aurinko paistaa juuri nyt. Auringon kulku ja rakennusten varjot lasketaan reaaliajassa.",
                       "Shows on a map which Helsinki terraces are in the sun right now. Sun position and building shadows are computed in real time."],
@@ -657,13 +663,22 @@ for (let i=0;i<N;i++){
   const r = 0.8*Math.sqrt((i+0.5)/N), a = i*2.399963229728653;
   put(SH.disc, i, Math.cos(a)*r, Math.sin(a)*r, gauss()*0.02);
 }
-/* the cycle: tilted torus */
-SH.torus = tgt();
-for (let i=0;i<N;i++){
-  const u = rnd()*Math.PI*2, v = rnd()*Math.PI*2, R=0.82, r=0.24;
-  let x=(R+r*Math.cos(v))*Math.cos(u), z=(R+r*Math.cos(v))*Math.sin(u), y=r*Math.sin(v);
-  const t=0.55, y2=y*Math.cos(t)-z*Math.sin(t), z2=y*Math.sin(t)+z*Math.cos(t);
-  put(SH.torus, i, x, y2, z2);
+/* the cycle: a flat ring with three phase nodes 120° apart — Suunnittele on
+   top, Rakenna lower right, Operoi lower left. Node particles carry role 1–3
+   (static, highlightable); ring particles are role 0 and flow via spin. */
+const RING_R = 0.95, NODE_A = [Math.PI/2, -Math.PI/6, Math.PI*7/6];
+SH.ring = tgt();
+{
+  const NN = Math.floor(N*0.36);
+  for (let i=0;i<N;i++){
+    if (i < NN){
+      const k = i%3, a = NODE_A[k];
+      put(SH.ring, i, Math.cos(a)*RING_R + gauss()*0.085, Math.sin(a)*RING_R + gauss()*0.085, gauss()*0.03, k+1);
+    } else {
+      const a = ((i-NN)/(N-NN))*Math.PI*2, r = RING_R + gauss()*0.022;
+      put(SH.ring, i, Math.cos(a)*r, Math.sin(a)*r, gauss()*0.02);
+    }
+  }
 }
 /* Sunspot: sun disk + 12 rays */
 SH.sun = tgt();
@@ -750,7 +765,7 @@ for (let i=0;i<N*4;i++) SEED[i]=rnd();
    p:    [noise, warm, rotAmt, offX, offY, sizeMul, scale, wobble]
          rotAmt = share of the continuous yaw; wobble = the gentle yaw sway
          (flat shapes use 0/0 so they always face the viewer).
-   tick: (q) — optional per-frame hook for scroll-linked text (counters …).
+   tick: (q, w) — optional per-frame hook for scroll-linked text (counters …).
    uni:  (q, t) → [spin, wave, hiRole, grow, cx, cy] — optional shader extras:
          spin rotates role-0 particles in the xy-plane, wave ripples y along x,
          particles whose role === hiRole turn amber and grow around (cx, cy).
@@ -763,7 +778,8 @@ const SCENES = [
     draw:drawProblem, tick:tickProblem },
   { id:"disc",     t:SH.disc,     p:[0.10,0.30,0.00,-0.42, 0.00,0.88,1.00,0],
     uni:(q,t) => [-t*0.12, 0, -9, 1, 0, 0] },
-  { id:"torus",    t:SH.torus,    p:[0.32,0.35,1.00, 0.00, 0.16,1.00,0.82,1] },
+  { id:"ring",     t:SH.ring,     p:[0.14,0.20,0.00, 0.44, 0.00,0.95,0.95,0],
+    uni:uniRing, draw:drawRing, tick:tickRing },
   { id:"sun",      t:SH.sun,      p:[0.55,0.95,0.00, 0.44, 0.02,1.05,0.95,1] },
   { id:"grid",     t:SH.grid,     p:[0.22,0.28,0.00,-0.42, 0.05,0.90,1.00,1] },
   { id:"cabin",    t:SH.cabin,    p:[0.30,0.74,0.00, 0.44, 0.02,0.95,1.05,1] },
@@ -801,6 +817,50 @@ function drawProblem(ctx, q, w){
   const pr = probT(q)*3, seg = Math.min(2, Math.floor(pr)), f = pr - seg;
   const a = P[C4_PATH[seg]], b = P[C4_PATH[seg+1]];
   packet(ctx, a[0]+(b[0]-a[0])*f, a[1]+(b[1]-a[1])*f, 6, w);
+}
+/* how: the active phase (by scroll) turns amber and grows, the step list
+   follows, a fast packet laps the ring and "feedback in a day" lands in the
+   centre near the end of the section */
+const ringPhase = q => q < 1/3 ? 0 : q < 2/3 ? 1 : 2;
+const stepEls = [...document.querySelectorAll("#steps li")];
+const fbEl = document.getElementById("fb"), fbPin = fbEl.closest(".pin");
+let ringAct = -1, ringGrow = 1, stepOn = -1, fbCss = "";
+function uniRing(q, t){
+  const k = ringPhase(q);
+  if (k !== ringAct){ ringAct = k; ringGrow = 1; }
+  ringGrow = REDUCED ? 1.45 : lerp(ringGrow, 1.45, 0.08);
+  return [-t*0.35, 0, k+1, ringGrow, Math.cos(NODE_A[k])*RING_R, Math.sin(NODE_A[k])*RING_R];
+}
+function tickRing(q, w){
+  const k = ringPhase(q);
+  if (k !== stepOn){ stepOn = k; stepEls.forEach((el,i) => el.classList.toggle("on", i === k)); }
+  let css = "";
+  if (glOK && vw > 980){
+    const c = proj(0, 0, 0), r = fbPin.getBoundingClientRect();
+    const a = w * clamp01((q-0.68)/0.14);
+    css = a > 0.001 ? `left:${(c[0]-r.left).toFixed(1)}px;top:${(c[1]-r.top).toFixed(1)}px;opacity:${a.toFixed(3)}` : "opacity:0";
+  }
+  if (css !== fbCss){ fbCss = css; fbEl.style.cssText = css; }
+}
+function drawRing(ctx, q, w){
+  const at = a => proj(Math.cos(a)*RING_R, Math.sin(a)*RING_R, 0);
+  if (vw > 980){   // phase labels beside the nodes; the active one in amber
+    ctx.font = "700 15px Geist, ui-sans-serif, system-ui, sans-serif";
+    ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    NODE_A.forEach((a,k) => {
+      const L = proj(Math.cos(a)*RING_R, Math.sin(a)*RING_R + (k ? -0.4 : 0.36), 0);
+      ctx.fillStyle = k === ringAct ? `rgba(240,185,124,${w})` : `rgba(237,239,244,${0.8*w})`;
+      ctx.fillText(I18N["how.s"+(k+1)+".t"][LANG], L[0], L[1]);
+    });
+  }
+  if (REDUCED){ const p = at(Math.PI/2); packet(ctx, p[0], p[1], 6, w); return; }
+  const th = Math.PI/2 - q*4*Math.PI*2;          // four laps, clockwise
+  for (let k=13;k>=1;k--){
+    const p = at(th + k*0.07);
+    ctx.fillStyle = `rgba(240,185,124,${w*(1-k/14)*0.85})`;
+    ctx.beginPath(); ctx.arc(p[0], p[1], Math.max(0.6, 6-k*0.4), 0, 6.2832); ctx.fill();
+  }
+  const p = at(th); packet(ctx, p[0], p[1], 6.5, w);
 }
 /* amber feedback packet: soft halo + solid core */
 function packet(ctx, x, y, r, a){
@@ -964,8 +1024,10 @@ if (glOK){
   }
 }
 if (!glOK) canvas.style.display = "none";
+document.documentElement.classList.toggle("gl", glOK);   // CSS: particle-driven layout extras
 canvas.addEventListener("webglcontextlost", e => { e.preventDefault(); glOK=false;
-  canvas.style.display="none"; overlay.style.display="none"; });
+  canvas.style.display="none"; overlay.style.display="none";
+  document.documentElement.classList.remove("gl"); fbEl.style.cssText = ""; });
 
 /* ---------- 2D overlay (packets, dashed links, labels) ----------
    A plain canvas above the particles. proj() mirrors the vertex shader's
@@ -1197,16 +1259,18 @@ function frame(now){
   const rot = REDUCED ? 0 : yawO*(1-rotAmt)*wobble + yawC*rotAmt;
   FR.rot = rot; FR.scale = scale; FR.offX = offX; FR.offY = offY;
 
-  /* scroll-linked text hooks see their own section's progress */
+  /* scroll-linked text hooks see their own section's progress + weight */
+  const wa = tl.a===tl.b ? 1 : 1-m, wb = tl.a===tl.b ? 0 : m;
   for (const A of anchors){
     const S = SCENES[A.scene];
-    if (S.tick) S.tick(clamp01((pos-A.y0)/Math.max(1, A.y1-A.y0)));
+    if (S.tick) S.tick(clamp01((pos-A.y0)/Math.max(1, A.y1-A.y0)),
+                       A.scene===tl.a ? wa : A.scene===tl.b ? wb : 0);
   }
 
   /* per-scene extras: spin / wave / highlighted role */
   const tm = REDUCED ? 0 : t;
   const ua = SA.uni ? SA.uni(tl.qa, tm) : NO_UNI;
-  const ub = SB.uni ? SB.uni(tl.qb, tm) : NO_UNI;
+  const ub = tl.a===tl.b ? ua : SB.uni ? SB.uni(tl.qb, tm) : NO_UNI;
 
   /* pointer dynamics */
   ptr.str = lerp(ptr.str, ptr.tstr, 0.08);
@@ -1260,7 +1324,6 @@ function frame(now){
 
     /* 2D overlay: only scenes with a draw hook, faded by their weight */
     if (ovDirty){ octx.setTransform(1,0,0,1,0,0); octx.clearRect(0,0,overlay.width,overlay.height); ovDirty = false; }
-    const wa = tl.a===tl.b ? 1 : 1-m, wb = tl.a===tl.b ? 0 : m;
     for (const [S, w, q] of [[SA, wa, tl.qa], [SB, wb, tl.qb]]){
       if (!S.draw || w < 0.02) continue;
       octx.setTransform(dpr,0,0,dpr,0,0);
