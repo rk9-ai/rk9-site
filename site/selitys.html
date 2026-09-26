@@ -65,37 +65,41 @@ a:hover{color:var(--sun)}
 .w{display:inline-block;will-change:transform}
 
 .hd{font-weight:800;font-size:5.1cqw;line-height:1.02;letter-spacing:-.035em;margin:0;text-wrap:balance}
-.bd{font-size:1.8cqw;line-height:1.45;color:var(--soft);margin:0;max-width:34ch}
-.tag{font-family:var(--f-m);font-size:1.25cqw;color:var(--soft);transform:translateX(-50%);letter-spacing:.02em;white-space:nowrap;transform-origin:center}
+.bd{font-size:max(12px,1.8cqw);line-height:1.45;color:var(--soft);margin:0;max-width:34ch}
+.tag{font-family:var(--f-m);font-size:max(11px,1.25cqw);color:var(--soft);transform:translateX(-50%);letter-spacing:.02em;white-space:nowrap;transform-origin:center}
 .sun{color:var(--sun)}
+/* text floors (max(…px, …cqw)) keep small stages legible */
 
 /* scene 1 */
 #s1h{left:7.5%;top:22%;width:48%}
 #s1p{left:7.5%;top:52%}
 #s1c{left:7.5%;top:72%;display:flex;align-items:baseline;gap:1.2cqw}
 #s1c b{font-family:var(--f-b);font-weight:800;font-size:4.2cqw;letter-spacing:-.03em;color:var(--sun);font-variant-numeric:tabular-nums;min-width:4.6ch}
-#s1c span{font-size:1.25cqw;color:var(--soft);max-width:20ch;line-height:1.35}
+#s1c span{font-size:max(11px,1.25cqw);color:var(--soft);max-width:20ch;line-height:1.35}
+#t1{left:63.75%;top:12%}#t2{left:85.6%;top:19.5%}#t3{left:64.4%;top:87%}#t4{left:86.2%;top:88%}
 /* scene 2 */
 #s2h{left:7.5%;top:28%;width:42%}
 #s2p{left:7.5%;top:58%}
 /* scene 3 */
 #s3h{left:7.5%;top:24%;width:36%;font-size:4.3cqw}
 .s3d{left:7.5%;top:56%;width:32%}
-.s3d strong{display:block;color:var(--ink);font-weight:500;margin-bottom:.3em;font-size:1.7cqw}
-.node{font-weight:800;font-size:1.9cqw;letter-spacing:-.02em;color:var(--ink);transform:translate(-50%,-50%);transition:color .4s}
+.s3d strong{display:block;color:var(--ink);font-weight:500;margin-bottom:.3em;font-size:max(12px,1.7cqw)}
+.node{font-weight:800;font-size:max(12px,1.9cqw);letter-spacing:-.02em;color:var(--ink);transform:translate(-50%,-50%);transition:color .4s}
 .node.on{color:var(--sun)}
-#s3fb{left:71.9%;top:52.2%;transform:translate(-50%,-50%);text-align:center;font-weight:800;font-size:2.1cqw;letter-spacing:-.02em;width:18cqw;line-height:1.1}
+#n0{left:71.9%;top:18.5%}#n1{left:88%;top:77%}#n2{left:55.8%;top:77%}
+#s3fb{left:71.9%;top:52.2%;transform:translate(-50%,-50%);text-align:center;font-weight:800;font-size:max(13px,2.1cqw);letter-spacing:-.02em;width:max(120px,18cqw);line-height:1.1}
 /* scene 4 */
 #s4h{left:50%;top:24%;width:42%;font-size:4.4cqw}
 .s4n{left:50%;width:42%;display:flex;gap:1.4cqw;align-items:baseline;border-top:1px solid var(--rule);padding-top:.9cqw}
-.s4n b{font-weight:800;font-size:2.2cqw;letter-spacing:-.02em;min-width:11cqw}
-.s4n span{font-size:1.35cqw;color:var(--soft)}
+.s4n b{font-weight:800;font-size:max(13px,2.2cqw);letter-spacing:-.02em;min-width:11cqw}
+.s4n span{font-size:max(11px,1.35cqw);color:var(--soft)}
+#r1{top:57%}#r2{top:67%}#r3{top:77%}
 /* scene 5 */
 #s5n{left:10%;top:31%;font-family:var(--f-d);font-weight:400;font-size:9.2cqw;line-height:1;letter-spacing:-.01em;white-space:nowrap;margin:0}
-#s5r{left:10%;top:56%;font-size:1.9cqw;color:var(--soft)}
+#s5r{left:10%;top:56%;font-size:max(12px,1.9cqw);color:var(--soft)}
 #s5u{left:10%;top:75%;font-weight:800;font-size:3cqw;letter-spacing:-.03em}
-#s5e{left:10%;top:83.5%;font-size:1.45cqw;color:var(--soft)}
-#s5g{right:10%;top:84%;font-family:var(--f-m);font-size:1.1cqw;color:var(--dim)}
+#s5e{left:10%;top:83.5%;font-size:max(11px,1.45cqw);color:var(--soft)}
+#s5g{right:10%;top:84%;font-family:var(--f-m);font-size:max(10px,1.1cqw);color:var(--dim)}
 
 /* controls */
 .ctl{display:grid;grid-template-columns:auto auto 1fr auto auto;gap:12px;align-items:center}
@@ -115,6 +119,32 @@ input[type=range]{width:100%;accent-color:var(--sun);margin:0}
 .chap button.cur{color:var(--ink);border-top-color:var(--sun)}
 .note{color:var(--dim);font-size:13px;margin:0}
 .note code{font-family:var(--f-m);font-size:12px;color:var(--soft)}
+/* portrait (9:16, logical 900×1600) — used when the viewport is taller than
+   wide (the parent page's viewport when embedded); tuned vertical-render values */
+html.port .deck{max-width:min(540px,calc((100vh - 230px)*9/16));min-width:min(100%,300px)}
+html.port .stage{aspect-ratio:9/16}
+html.port .hd{font-size:9cqw}
+html.port .bd{font-size:max(12px,3.5cqw);max-width:30ch}
+html.port .tag{font-size:max(11px,2.7cqw)}
+html.port #t1{left:27.8%;top:48.4%}html.port #t2{left:71.1%;top:52.8%}
+html.port #t3{left:30%;top:81.6%}html.port #t4{left:72.2%;top:84.7%}
+html.port #s1h{left:8%;top:13%;width:84%}html.port #s1p{left:8%;top:27%}
+html.port #s1c{left:8%;top:38%;gap:2.4cqw}
+html.port #s1c b{font-size:9cqw}html.port #s1c span{font-size:max(11px,2.8cqw)}
+html.port #s2h{left:8%;top:14%;width:84%}html.port #s2p{left:8%;top:24%}
+html.port #s3h{left:8%;top:12%;width:84%;font-size:8.4cqw}
+html.port .s3d{left:8%;top:25%;width:84%}html.port .s3d strong{font-size:max(12px,3.8cqw)}
+html.port .node{font-size:max(12px,4.4cqw)}
+html.port #n0{left:50%;top:48%}html.port #n1{left:76%;top:81.6%}html.port #n2{left:24%;top:81.6%}
+html.port #s3fb{left:50%;top:68.75%;font-size:max(13px,4.6cqw);width:max(120px,42cqw)}
+html.port #s4h{left:8%;top:50%;width:84%;font-size:8cqw}
+html.port .s4n{left:8%;width:84%;gap:3cqw;padding-top:1.6cqw}
+html.port .s4n b{font-size:max(13px,4.6cqw);min-width:26cqw}html.port .s4n span{font-size:max(11px,3cqw)}
+html.port #r1{top:63%}html.port #r2{top:69.5%}html.port #r3{top:76%}
+html.port #s5n{left:8%;top:22%;width:84%;font-size:18cqw;white-space:normal}
+html.port #s5r{left:8%;top:49%;font-size:max(12px,3.6cqw)}html.port #s5u{left:8%;top:66%;font-size:7.5cqw}
+html.port #s5e{left:8%;top:73%;font-size:max(11px,3.3cqw)}
+html.port #s5g{left:8%;right:auto;top:78%;font-size:max(10px,2.6cqw)}
 /* embed=1 (homepage dialog): just the player, language set by the page */
 html.embed body{padding:0}
 html.embed .deck{max-width:none;min-width:0}
@@ -134,7 +164,8 @@ html.embed .top,html.embed .note,html.embed .lang,html.embed .back{display:none}
     <h1 data-k="title">RK9 AI, 30 sekunnissa</h1>
     <p data-k="intro">Mitä RK9 AI tekee ja miksi, puolessa minuutissa.</p>
   </header>
-  <noscript><p class="note" style="color:var(--soft)">Selitysvideo tarvitsee JavaScriptin. Sama sisältö tekstinä: <a href="/">rk9.fi</a>.</p></noscript>
+  <noscript><p class="note" style="color:var(--soft)">Selitysvideo tarvitsee JavaScriptin. Sama sisältö tekstinä: <a href="/">rk9.fi</a>.<br>
+    <span lang="en">The explainer needs JavaScript. The same story as text: <a href="/">rk9.fi</a>.</span></p></noscript>
 
   <div class="stage" id="stage" role="img" aria-label="Animoitu 30 sekunnin selitysvideo RK9 AI:sta">
     <canvas id="cv"></canvas>
@@ -143,10 +174,10 @@ html.embed .top,html.embed .note,html.embed .lang,html.embed .back{display:none}
       <h2 class="a hd split" id="s1h" data-in="0.3" data-out="5.6" data-k="s1h"></h2>
       <p class="a bd" id="s1p" data-in="1.5" data-out="5.6" data-k="s1p"></p>
       <div class="a" id="s1c" data-in="2.1" data-out="5.6"><b id="days">0 pv</b><span data-k="s1c"></span></div>
-      <span class="a tag" data-in="1.0" data-out="5.6" data-k="v1" style="left:63.75%;top:12%"></span>
-      <span class="a tag" data-in="1.15" data-out="5.6" data-k="v2" style="left:85.6%;top:19.5%"></span>
-      <span class="a tag" data-in="1.3" data-out="5.6" data-k="v3" style="left:64.4%;top:87%"></span>
-      <span class="a tag" data-in="1.45" data-out="5.6" data-k="v4" style="left:86.2%;top:88%"></span>
+      <span class="a tag" data-in="1.0" data-out="5.6" data-k="v1" id="t1"></span>
+      <span class="a tag" data-in="1.15" data-out="5.6" data-k="v2" id="t2"></span>
+      <span class="a tag" data-in="1.3" data-out="5.6" data-k="v3" id="t3"></span>
+      <span class="a tag" data-in="1.45" data-out="5.6" data-k="v4" id="t4"></span>
       <!-- 2 · mitä teen -->
       <h2 class="a hd split" id="s2h" data-in="6.9" data-out="11.6" data-k="s2h"></h2>
       <p class="a bd" id="s2p" data-in="8.1" data-out="11.6" data-k="s2p"></p>
@@ -155,15 +186,15 @@ html.embed .top,html.embed .note,html.embed .lang,html.embed .back{display:none}
       <p class="a bd s3d" data-in="13.5" data-out="15.6" data-k="d1"></p>
       <p class="a bd s3d" data-in="15.8" data-out="17.8" data-k="d2"></p>
       <p class="a bd s3d" data-in="18.0" data-out="20.1" data-k="d3"></p>
-      <span class="a node" id="n0" data-in="13.0" data-out="20.1" data-k="n1" style="left:71.9%;top:18.5%"></span>
-      <span class="a node" id="n1" data-in="13.2" data-out="20.1" data-k="n2" style="left:88%;top:77%"></span>
-      <span class="a node" id="n2" data-in="13.4" data-out="20.1" data-k="n3" style="left:55.8%;top:77%"></span>
+      <span class="a node" id="n0" data-in="13.0" data-out="20.1" data-k="n1"></span>
+      <span class="a node" id="n1" data-in="13.2" data-out="20.1" data-k="n2"></span>
+      <span class="a node" id="n2" data-in="13.4" data-out="20.1" data-k="n3"></span>
       <div class="a" id="s3fb" data-in="18.4" data-out="20.1" data-k="fb"></div>
       <!-- 4 · näyttö -->
       <h2 class="a hd split" id="s4h" data-in="21.2" data-out="25.1" data-k="s4h"></h2>
-      <div class="a s4n" style="top:57%" data-in="22.1" data-out="25.1"><b>Sunspot</b><span data-k="p1"></span></div>
-      <div class="a s4n" style="top:67%" data-in="22.5" data-out="25.1"><b>Saatavilla</b><span data-k="p2"></span></div>
-      <div class="a s4n" style="top:77%" data-in="22.9" data-out="25.1"><b>Ololla</b><span data-k="p3"></span></div>
+      <div class="a s4n" id="r1" data-in="22.1" data-out="25.1"><b>Sunspot</b><span data-k="p1"></span></div>
+      <div class="a s4n" id="r2" data-in="22.5" data-out="25.1"><b>Saatavilla</b><span data-k="p2"></span></div>
+      <div class="a s4n" id="r3" data-in="22.9" data-out="25.1"><b>Ololla</b><span data-k="p3"></span></div>
       <!-- 5 · nimi -->
       <h2 class="a split" id="s5n" data-in="25.9" data-out="999">Mikko-Ville Lahti</h2>
       <p class="a" id="s5r" data-in="26.8" data-out="999" data-k="role"></p>
@@ -197,7 +228,7 @@ html.embed .top,html.embed .note,html.embed .lang,html.embed .back{display:none}
 (() => {
 const T = {
   fi:{
-    title:"RK9 AI, 30 sekunnissa", doc:"RK9 AI — 30 sekunnissa",
+    title:"RK9 AI, 30 sekunnissa", doc:"RK9 AI — 30 sekunnissa", tl:"Aikajana", lg:"Kieli",
     aria:"Animoitu 30 sekunnin selitysvideo RK9 AI:sta",
     intro:"Mitä RK9 AI tekee ja miksi, puolessa minuutissa.",
     s1h:"Neljä tekijää. Yksi palvelu.",
@@ -221,7 +252,7 @@ const T = {
     note:"Välilyönti toistaa tai pysäyttää. Klikkaa kohtausta hypätäksesi siihen."
   },
   en:{
-    title:"RK9 AI in 30 seconds", doc:"RK9 AI — in 30 seconds",
+    title:"RK9 AI in 30 seconds", doc:"RK9 AI — in 30 seconds", tl:"Timeline", lg:"Language",
     aria:"Animated 30-second explainer about RK9 AI",
     intro:"What RK9 AI does and why, in half a minute.",
     s1h:"Four parties. One service.",
@@ -251,7 +282,8 @@ const EMBED = QS.get('embed') === '1' && parent !== window;
 const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
 const stage = $('#stage'), cv = $('#cv'), ctx = cv.getContext('2d');
-let lang = 'fi', t = 0, playing = true, last = performance.now(), anims = [];
+/* reduced motion: start paused on a readable frame (scene 1 complete) */
+let lang = 'fi', t = RM ? 5.2 : 0, playing = !RM, last = performance.now(), anims = [];
 
 /* ---------- text ---------- */
 function split(el){
@@ -263,7 +295,9 @@ function setLang(l){
   document.documentElement.lang = l;
   document.title = T[l].doc;
   stage.setAttribute('aria-label', T[l].aria);
-  $$('[data-k]').forEach(el => { el.innerHTML = T[l][el.dataset.k]; });
+  $('#scrub').setAttribute('aria-label', T[l].tl); $('.lang').setAttribute('aria-label', T[l].lg);
+  /* without a sampled digit the "3" goes back into the heading as text */
+  $$('[data-k]').forEach(el => { el.innerHTML = (el.id === 's4h' && !digitOK ? '3 ' : '') + T[l][el.dataset.k]; });
   $$('.split').forEach(split);
   $('#fi').setAttribute('aria-pressed', l === 'fi'); $('#en').setAttribute('aria-pressed', l === 'en');
   collect(); syncBtn(); render();
@@ -309,25 +343,54 @@ function drawText(){
 const activeNode = () => t < 13.5 || t >= 20.5 ? -1 : t < 15.7 ? 0 : t < 17.9 ? 1 : 2;
 
 /* ---------- particles ---------- */
-const N = 1400, W = 1600, H = 900;
+/* two layouts: 16:9 (logical 1600×900) and 9:16 (900×1600), picked by the
+   viewport's shape — the parent page's viewport when embedded. Switching
+   rebuilds the digit; the stage's ResizeObserver resizes the canvas. */
+const LAYOUTS = {
+  land: { W: 1600, H: 900, C4: [[1020, 250], [1370, 320], [1030, 650], [1380, 660]], cx: 1200,
+          disc: [1180, 450, 185], RC: [1150, 470], RR: 250, dig: [720, 430, 490], line: [160, 1280, 648] },
+  port: { W: 900, H: 1600, C4: [[250, 880], [640, 950], [270, 1210], [650, 1260]], cx: 450,
+          disc: [450, 1080, 250], RC: [450, 1100], RR: 270, dig: [700, 450, 590], line: [72, 756, 1000] }
+};
+const N = 1400;
+let LY = LAYOUTS.land, W = LY.W, H = LY.H;
 const P = [];
 let seed = 9;
 const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
 const gauss = () => Math.sqrt(-2 * Math.log(rnd() + 1e-9)) * Math.cos(2 * Math.PI * rnd());
 for (let i = 0; i < N; i++) P.push({ rx: rnd(), ry: rnd(), g1: gauss(), g2: gauss(), ph: rnd() * 6.283, s: .7 + rnd() * 1.3, sun: i % 17 === 0, d: rnd() * .45 });
-const C4 = [[1020, 250], [1370, 320], [1030, 650], [1380, 660]];
-const RC = [1150, 470], RR = 250, NA = [-Math.PI/2, Math.PI/6, 5*Math.PI/6];
-let digit = [];
+let C4 = LY.C4, RC = LY.RC, RR = LY.RR;
+const NA = [-Math.PI/2, Math.PI/6, 5*Math.PI/6];
+function applyLayout(){
+  const vp = EMBED ? parent : window, port = vp.innerWidth <= vp.innerHeight;
+  document.documentElement.classList.toggle('port', port);
+  const next = port ? LAYOUTS.port : LAYOUTS.land;
+  if (next === LY) return false;
+  LY = next; W = LY.W; H = LY.H; C4 = LY.C4; RC = LY.RC; RR = LY.RR;
+  buildDigit();
+  return true;
+}
+let digit = [], digitOK = true;
 function buildDigit(){
-  const oc = document.createElement('canvas'); oc.width = W; oc.height = H;
-  const o = oc.getContext('2d');
-  o.fillStyle = '#fff'; o.textAlign = 'center'; o.textBaseline = 'middle';
-  o.font = '800 720px Geist, system-ui, sans-serif';
-  o.fillText('3', 430, 490);
-  const d = o.getImageData(0, 0, W, H).data, pts = [];
-  for (let y = 0; y < H; y += 7) for (let x = 0; x < W; x += 7) if (d[(y * W + x) * 4 + 3] > 128) pts.push([x, y]);
+  const [fs, gx, gy] = LY.dig, pts = [];
+  let cells = 0;
+  try {
+    const oc = document.createElement('canvas'); oc.width = W; oc.height = H;
+    const o = oc.getContext('2d');
+    o.fillStyle = '#fff'; o.textAlign = 'center'; o.textBaseline = 'middle';
+    o.font = `800 ${fs}px Geist, system-ui, sans-serif`;
+    o.fillText('3', gx, gy);
+    const d = o.getImageData(0, 0, W, H).data;
+    for (let y = 0; y < H; y += 7) for (let x = 0; x < W; x += 7){ cells++; if (d[(y * W + x) * 4 + 3] > 128) pts.push([x, y]); }
+  } catch (e) { /* canvas read blocked */ }
+  /* the glyph covers ~7 % of the canvas; an empty or solid mask means the
+     read was blocked or randomised (e.g. resistFingerprinting): use a soft
+     cluster instead and put the "3" back into the heading as text */
+  const f = cells ? pts.length / cells : 0;
+  digitOK = f > 0.01 && f < 0.3;
+  if (!digitOK){ pts.length = 0; for (let i = 0; i < 400; i++) pts.push([gx + gauss() * 70, gy + gauss() * 70]); }
   for (let i = pts.length - 1; i > 0; i--){ const j = Math.floor(rnd() * (i + 1)); [pts[i], pts[j]] = [pts[j], pts[i]]; }
-  digit = pts.length ? pts : [[430, 450]];
+  digit = pts;
 }
 const M = RM ? 0 : 1;
 function pos(sc, i, tt, u){
@@ -335,9 +398,9 @@ function pos(sc, i, tt, u){
   switch (sc){
     case -1: return [p.rx * W + Math.sin(tt * .3 + p.ph) * 20 * M, p.ry * H + Math.cos(tt * .25 + p.ph) * 20 * M];
     case 0: { const c = C4[i % 4], drift = 1 + .04 * clamp(u / 5);
-      return [c[0] + (c[0] - 1200) * (drift - 1) + p.g1 * 46 + Math.sin(tt * 1.3 + p.ph) * 4 * M, c[1] + p.g2 * 46 + Math.cos(tt * 1.1 + p.ph) * 4 * M]; }
-    case 1: { const r = 185 * Math.sqrt(i / N) * (1 + .025 * Math.sin(tt * 2.2) * M), a = i * 2.39996 + tt * .15 * M;
-      return [1180 + Math.cos(a) * r, 450 + Math.sin(a) * r]; }
+      return [c[0] + (c[0] - LY.cx) * (drift - 1) + p.g1 * 46 + Math.sin(tt * 1.3 + p.ph) * 4 * M, c[1] + p.g2 * 46 + Math.cos(tt * 1.1 + p.ph) * 4 * M]; }
+    case 1: { const r = LY.disc[2] * Math.sqrt(i / N) * (1 + .025 * Math.sin(tt * 2.2) * M), a = i * 2.39996 + tt * .15 * M;
+      return [LY.disc[0] + Math.cos(a) * r, LY.disc[1] + Math.sin(a) * r]; }
     case 2: { const nn = Math.floor(N * .36);
       if (i < nn){ const k = i % 3, on = activeNode() === k ? 1.45 : 1;
         return [RC[0] + Math.cos(NA[k]) * RR + p.g1 * 24 * on, RC[1] + Math.sin(NA[k]) * RR + p.g2 * 24 * on]; }
@@ -345,8 +408,8 @@ function pos(sc, i, tt, u){
       return [RC[0] + Math.cos(a) * r, RC[1] + Math.sin(a) * r]; }
     case 3: { const q = digit[i % digit.length];
       return [q[0] + Math.sin(tt * 1.7 + p.ph) * 1.6 * M, q[1] + Math.cos(tt * 1.5 + p.ph) * 1.6 * M]; }
-    case 4: { const x = 160 + (i / N) * 1280, amp = (22 * Math.pow(1 - clamp(u / 2.6), 2) + 1.2) * (M || .05);
-      return [x, 648 + p.g1 * 2 + Math.sin(x * .012 - tt * 2.4) * amp]; }
+    case 4: { const x = LY.line[0] + (i / N) * LY.line[1], amp = (22 * Math.pow(1 - clamp(u / 2.6), 2) + 1.2) * (M || .05);
+      return [x, LY.line[2] + p.g1 * 2 + Math.sin(x * .012 - tt * 2.4) * amp]; }
   }
 }
 function sceneAt(tt){ for (let s = SC.length - 2; s >= 0; s--) if (tt >= SC[s]) return s; return 0; }
@@ -416,6 +479,8 @@ function dot(x, y, r, a){
 function render(){
   drawParticles(); drawText();
   $('#scrub').value = t;
+  const vt = Math.round(t) + ' s / 30 s';
+  if ($('#scrub').getAttribute('aria-valuetext') !== vt) $('#scrub').setAttribute('aria-valuetext', vt);
   $('#time').textContent = (lang === 'fi' ? t.toFixed(1).replace('.', ',') : t.toFixed(1)) + ' / 30 s';
   const s = Math.min(4, sceneAt(t));
   $$('#chap button').forEach((b, i) => b.classList.toggle('cur', i === s));
@@ -446,9 +511,10 @@ if (EMBED){
   new ResizeObserver(post).observe(deck);
 }
 
-buildDigit(); setLang(QS.get('lang') === 'en' ? 'en' : 'fi'); resize();
+applyLayout() || buildDigit(); setLang(QS.get('lang') === 'en' ? 'en' : 'fi'); resize();
+addEventListener('resize', () => { if (applyLayout()){ setLang(lang); render(); } });
 Promise.all([document.fonts.load('800 100px Geist'), document.fonts.load('100px "Instrument Serif"')])
-  .catch(() => {}).then(() => { buildDigit(); render(); });
+  .catch(() => {}).then(() => { const was = digitOK; buildDigit(); if (was !== digitOK) setLang(lang); render(); });
 requestAnimationFrame(loop);
 })();
 </script>

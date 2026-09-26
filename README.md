@@ -12,7 +12,7 @@ inlined, so the whole site is three HTML files and one image.
 ## Stack
 
 - **Static files** in `site/` — committed ready-to-serve.
-  - `site/index.html` — the homepage (self-contained, ~186 kB).
+  - `site/index.html` — the homepage (self-contained, ~175 kB).
   - `site/tietosuoja.html` — privacy policy (served at `/tietosuoja`).
   - `site/selitys.html` — the 30 s explainer (Canvas 2D, served at `/selitys`).
     The homepage "Katso 30 s" dialog loads the same file in an iframe
