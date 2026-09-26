@@ -168,6 +168,21 @@ h2.display{font-size:clamp(2.2rem,4.6vw,4rem)}
   #hero .side{display:none}
 }
 
+/* tall scroll-story sections: the text pins (sticky, native scroll) while
+   the scene plays out behind it; phones get an ordinary section */
+.sec.tall{display:block;min-height:210svh;padding:0 6vw}
+.sec.tall .pin{position:sticky;top:0;min-height:100svh;display:flex;align-items:center;padding:14vh 0}
+@media(max-width:980px){
+  .sec.tall{display:flex;min-height:100svh;padding:18vh 6vw}
+  .sec.tall .pin{position:static;min-height:0;padding:0;width:100%}
+}
+
+/* problem — the feedback counter */
+.count{display:flex;align-items:baseline;gap:18px;margin-top:40px}
+.count b{font-weight:800;font-size:clamp(2.6rem,4.4vw,3.8rem);line-height:1;letter-spacing:-.03em;
+  color:var(--sun);font-variant-numeric:tabular-nums;white-space:nowrap;min-width:3.6ch}
+.count>span{font-size:.95rem;line-height:1.4;color:var(--soft);max-width:21ch}
+
 /* section head */
 .shead{margin-bottom:5vh;max-width:44rem}
 .shead h2{margin-bottom:18px}
@@ -309,8 +324,24 @@ body.finecursor #cur,body.finecursor #curring{opacity:1}
     </div>
   </section>
 
-  <!-- 1 · WHAT -->
-  <section class="sec" id="mita" data-scene="1" data-label="Mitä|What">
+  <!-- 1 · PROBLEM -->
+  <section class="sec tall" id="ongelma" data-scene="1" data-label="Ongelma|Problem">
+    <div class="pin">
+      <div class="wrap">
+        <div class="half">
+          <div class="txt">
+            <h2 class="display rv" data-i="prob.title">Neljä tekijää. Yksi palvelu.</h2>
+            <div style="height:22px"></div>
+            <p class="lede rv" data-d="1" data-i="prob.body">Yksi suunnittelee, toinen rakentaa, kolmas ylläpitää ja neljäs vastaa asiakkaille.</p>
+            <p class="count rv" data-d="2"><b><span id="days">90</span>&nbsp;<span data-i="prob.unit">pv</span></b><span data-i="prob.count">palautteen matka tuotannosta suunnitteluun</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · WHAT -->
+  <section class="sec" id="mita" data-scene="2" data-label="Mitä|What">
     <div class="wrap">
       <div class="half rev">
         <div class="txt">
@@ -327,8 +358,8 @@ body.finecursor #cur,body.finecursor #curring{opacity:1}
     </div>
   </section>
 
-  <!-- 2 · HOW -->
-  <section class="sec" id="miten" data-scene="2" data-label="Miten|How">
+  <!-- 3 · HOW -->
+  <section class="sec" id="miten" data-scene="3" data-label="Miten|How">
     <div class="wrap">
       <div class="shead" style="text-align:center;margin-inline:auto">
         <h2 class="display rv" data-d="1" data-i="how.title">Suunnittele, rakenna, operoi.</h2>
@@ -354,9 +385,9 @@ body.finecursor #cur,body.finecursor #curring{opacity:1}
     </div>
   </section>
 
-  <!-- 3–5 · WORK -->
+  <!-- 4–6 · WORK -->
   <div id="tyot">
-    <section class="work-panel sec" id="tyo-sunspot" data-scene="3" data-label="Sunspot|Sunspot">
+    <section class="work-panel sec" id="tyo-sunspot" data-scene="4" data-label="Sunspot|Sunspot">
       <div class="wrap">
         <div class="work-card">
           <h3 class="rv" data-d="1">Sunspot</h3>
@@ -367,7 +398,7 @@ body.finecursor #cur,body.finecursor #curring{opacity:1}
         </div>
       </div>
     </section>
-    <section class="work-panel sec" id="tyo-saatavilla" data-scene="4" data-label="Saatavilla|Saatavilla">
+    <section class="work-panel sec" id="tyo-saatavilla" data-scene="5" data-label="Saatavilla|Saatavilla">
       <div class="wrap" style="display:flex">
         <div class="work-card push">
           <h3 class="rv" data-d="1">Saatavilla</h3>
@@ -378,7 +409,7 @@ body.finecursor #cur,body.finecursor #curring{opacity:1}
         </div>
       </div>
     </section>
-    <section class="work-panel sec" id="tyo-ololla" data-scene="5" data-label="Ololla|Ololla">
+    <section class="work-panel sec" id="tyo-ololla" data-scene="6" data-label="Ololla|Ololla">
       <div class="wrap">
         <div class="work-card">
           <h3 class="rv" data-d="1">Ololla</h3>
@@ -392,8 +423,8 @@ body.finecursor #cur,body.finecursor #curring{opacity:1}
     </section>
   </div>
 
-  <!-- 6 · METRICS -->
-  <section class="sec" id="mittaluokka" data-scene="6" data-label="Mittaluokka|Scale">
+  <!-- 7 · METRICS -->
+  <section class="sec" id="mittaluokka" data-scene="7" data-label="Mittaluokka|Scale">
     <div class="wrap">
       <div class="shead">
         <h2 class="display rv" data-d="1" data-i="m.title">Numerot puhuvat.</h2>
@@ -419,8 +450,8 @@ body.finecursor #cur,body.finecursor #curring{opacity:1}
     </div>
   </section>
 
-  <!-- 7 · ONE -->
-  <section class="sec" id="yhteys" data-scene="7" data-label="Yhteys|Contact">
+  <!-- 8 · ONE -->
+  <section class="sec" id="yhteys" data-scene="8" data-label="Yhteys|Contact">
     <div>
       <h2 class="display chsplit" id="fintitle" aria-label="Yksi sähköposti, yksi ihminen."><span class="ln">Yksi sähköposti,</span><span class="ln">yksi ihminen.</span></h2>
       <p class="lede rv" data-d="2" data-i="fin.lede">Sähköposti menee suoraan perustajalle. Vastaamme 1–2 arkipäivän kuluessa.</p>
@@ -450,7 +481,7 @@ body.finecursor #cur,body.finecursor #curring{opacity:1}
 /* =========================================================================
    RK9 — Elävä graafi
    One 14 000-particle organism narrates the whole page. It morphs through
-   eight scenes driven by native scroll; no scroll hijacking anywhere.
+   its scenes driven by native scroll; no scroll hijacking anywhere.
    ========================================================================= */
 
 /* ---------- i18n ---------- */
@@ -467,6 +498,13 @@ const I18N = {
   "live":            ["Tuotannossa juuri nyt","In production right now"],
   "vault.caption":   ["Talon tietopohja graafina — jokainen piste on muistiinpano, viivat linkkejä. Se elää tällä sivulla mukanasi.",
                       "The studio's knowledge base as a graph — every dot is a note, the lines are links. On this page it lives and moves with you."],
+  "prob.title":      ["Neljä tekijää. Yksi palvelu.","Four parties. One service."],
+  "prob.body":       ["Yksi suunnittelee, toinen rakentaa, kolmas ylläpitää ja neljäs vastaa asiakkaille.",
+                      "One designs it, another builds it, a third runs it and a fourth answers the customers."],
+  "prob.unit":       ["pv","d"],
+  "prob.count":      ["palautteen matka tuotannosta suunnitteluun","for feedback to travel from production back to design"],
+  "prob.v1":         ["suunnittelu","design"], "prob.v2":["kehitys","development"],
+  "prob.v3":         ["ylläpito","operations"], "prob.v4":["asiakaspalvelu","support"],
   "what.title":      ["Omia tuotteita, oikeille asiakkaille.","Our own products, for real customers."],
   "what.p1":         ["RK9 rakentaa ja operoi digitaalisia palveluja suomalaisille markkinoille. Jokainen palvelu on oikeasti tuotannossa — ei demoa, ei kuvakaappausta.",
                       "RK9 builds and operates digital services for Finnish markets. Each service is genuinely in production — not a demo, not a screenshot."],
@@ -605,6 +643,13 @@ for (let k=0;k<9000 && linkVerts.length < 760*6; k++){
 }
 const LINKS = new Float32Array(linkVerts);
 
+/* problem: four separate vendors (explainer layout, clusters on the right) */
+const C4 = [[-0.71,0.87],[0.67,0.59],[-0.67,-0.71],[0.71,-0.75]];
+SH.problem = tgt();
+for (let i=0;i<N;i++){
+  const c = C4[i%4], sd = rnd() < 0.7 ? 0.11 : 0.2;
+  put(SH.problem, i, c[0]+gauss()*sd, c[1]+gauss()*sd, gauss()*0.08);
+}
 /* three market clusters */
 SH.clusters = tgt();
 for (let i=0;i<N;i++){
@@ -705,6 +750,7 @@ for (let i=0;i<N*4;i++) SEED[i]=rnd();
    p:    [noise, warm, rotAmt, offX, offY, sizeMul, scale, wobble]
          rotAmt = share of the continuous yaw; wobble = the gentle yaw sway
          (flat shapes use 0/0 so they always face the viewer).
+   tick: (q) — optional per-frame hook for scroll-linked text (counters …).
    uni:  (q, t) → [spin, wave, hiRole, grow, cx, cy] — optional shader extras:
          spin rotates role-0 particles in the xy-plane, wave ripples y along x,
          particles whose role === hiRole turn amber and grow around (cx, cy).
@@ -713,6 +759,8 @@ for (let i=0;i<N*4;i++) SEED[i]=rnd();
    scene's current weight (1 = fully formed). */
 const SCENES = [
   { id:"sphere",   t:SH.sphere,   p:[0.55,0.25,1.00, 0.46, 0.00,1.00,1.00,1] },
+  { id:"problem",  t:SH.problem,  p:[0.30,0.22,0.00, 0.46, 0.00,1.00,0.92,0.3],
+    draw:drawProblem, tick:tickProblem },
   { id:"clusters", t:SH.clusters, p:[0.50,0.32,0.50,-0.42, 0.00,1.18,1.00,1] },
   { id:"torus",    t:SH.torus,    p:[0.32,0.35,1.00, 0.00, 0.16,1.00,0.82,1] },
   { id:"sun",      t:SH.sun,      p:[0.55,0.95,0.00, 0.44, 0.02,1.05,0.95,1] },
@@ -722,6 +770,44 @@ const SCENES = [
   { id:"point",    t:SH.point,    p:[0.06,1.00,0.00, 0.00, 0.68,1.65,1.00,1] },
 ];
 const NO_UNI = [0,0,-9,1,0,0];
+const eIO = x => x < .5 ? 4*x*x*x : 1 - Math.pow(-2*x + 2, 3)/2;
+
+/* problem: the feedback packet crawls vendor → vendor while the counter
+   climbs 0 → 90 days, both paced by scroll (static at 90 for reduced motion) */
+const C4_PATH = [0,1,3,2], C4_LBL = ["prob.v1","prob.v2","prob.v3","prob.v4"];
+const probT = q => { if (REDUCED) return 1; const x = clamp01((q-0.08)/0.8); return x*x*(3-2*x); };
+const daysEl = document.getElementById("days");
+let lastDays = 90;
+function tickProblem(q){
+  const d = Math.round(90*probT(q));
+  if (d !== lastDays){ lastDays = d; daysEl.textContent = d; }
+}
+function drawProblem(ctx, q, w){
+  const P = C4.map(c => proj(c[0], c[1], 0));
+  ctx.setLineDash([3,7]); ctx.lineWidth = 1.2;
+  ctx.strokeStyle = `rgba(165,196,255,${0.34*w})`;
+  ctx.beginPath();
+  C4_PATH.forEach((k,j) => j ? ctx.lineTo(P[k][0],P[k][1]) : ctx.moveTo(P[k][0],P[k][1]));
+  ctx.stroke(); ctx.setLineDash([]);
+  if (vw >= 980){   // on phones the shape sits behind the text: no labels
+    ctx.font = "400 12px 'Geist Mono', ui-monospace, monospace";
+    ctx.textAlign = "center"; ctx.fillStyle = `rgba(155,163,181,${w})`;
+    C4.forEach((c,k) => {
+      const L = proj(c[0], c[1] + (c[1] > 0 ? 0.34 : -0.4), 0);
+      ctx.fillText(I18N[C4_LBL[k]][LANG], L[0], L[1]);
+    });
+  }
+  const pr = probT(q)*3, seg = Math.min(2, Math.floor(pr)), f = pr - seg;
+  const a = P[C4_PATH[seg]], b = P[C4_PATH[seg+1]];
+  packet(ctx, a[0]+(b[0]-a[0])*f, a[1]+(b[1]-a[1])*f, 6, w);
+}
+/* amber feedback packet: soft halo + solid core */
+function packet(ctx, x, y, r, a){
+  ctx.fillStyle = `rgba(240,185,124,${0.16*a})`;
+  ctx.beginPath(); ctx.arc(x, y, r*2.8, 0, 6.2832); ctx.fill();
+  ctx.fillStyle = `rgba(240,185,124,${a})`;
+  ctx.beginPath(); ctx.arc(x, y, r, 0, 6.2832); ctx.fill();
+}
 
 /* ---------- WebGL ---------- */
 const canvas = document.getElementById("stage");
@@ -1109,6 +1195,12 @@ function frame(now){
   const yawC = ((t*0.14 + Math.PI) % (Math.PI*2)) - Math.PI, yawO = Math.sin(t*0.22)*0.16;
   const rot = REDUCED ? 0 : yawO*(1-rotAmt)*wobble + yawC*rotAmt;
   FR.rot = rot; FR.scale = scale; FR.offX = offX; FR.offY = offY;
+
+  /* scroll-linked text hooks see their own section's progress */
+  for (const A of anchors){
+    const S = SCENES[A.scene];
+    if (S.tick) S.tick(clamp01((pos-A.y0)/Math.max(1, A.y1-A.y0)));
+  }
 
   /* per-scene extras: spin / wave / highlighted role */
   const tm = REDUCED ? 0 : t;
