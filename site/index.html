@@ -140,7 +140,7 @@ h2.display{font-size:clamp(2.2rem,4.6vw,4rem)}
 /* hero */
 #hero{align-items:center;padding-top:13vh;padding-bottom:11vh}
 #hero .wrap{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:4vw;align-items:center}
-#hero .side{min-height:1px}
+#hero .side{min-height:1px;align-self:end;display:flex;justify-content:flex-end}
 .chsplit .ln{display:block;overflow:hidden;padding-bottom:.06em;margin-bottom:-.06em}
 .chsplit .wd{display:inline-block;white-space:nowrap}
 .chsplit .ch{display:inline-block;transform:translateY(115%) rotate(5deg);
@@ -351,7 +351,7 @@ body.finecursor #explainer button{cursor:pointer}
         </div>
         <div class="rv" data-d="4"><span class="live"><span class="kdot"></span><span data-i="live">Tuotannossa juuri nyt</span></span></div>
       </div>
-      <div class="side" style="align-self:end;display:flex;justify-content:flex-end">
+      <div class="side">
         <p class="caption rv" data-d="4" data-i="vault.caption">Talon tietopohja graafina — jokainen piste on muistiinpano, viivat linkkejä. Se elää tällä sivulla mukanasi.</p>
       </div>
     </div>
@@ -818,14 +818,14 @@ const SCENES = [
   { id:"sphere",   t:SH.sphere,   p:[0.55,0.25,1.00, 0.46, 0.00,1.00,1.00,1] },
   { id:"problem",  t:SH.problem,  p:[0.30,0.22,0.00, 0.46, 0.00,1.00,0.92,0.3],
     draw:drawProblem, tick:tickProblem },
-  { id:"disc",     t:SH.disc,     p:[0.10,0.30,0.00,-0.42, 0.00,0.88,1.00,0],
+  { id:"disc",     t:SH.disc,     p:[0.10,0.30,0.00,-0.42, 0.00,1.35,1.00,0],
     uni:(q,t) => [-t*0.12, 0, -9, 1, 0, 0] },
   { id:"ring",     t:SH.ring,     p:[0.14,0.20,0.00, 0.44, 0.00,0.95,0.95,0],
     uni:uniRing, draw:drawRing, tick:tickRing },
   { id:"sun",      t:SH.sun,      p:[0.55,0.95,0.00, 0.44, 0.02,1.05,0.95,1] },
   { id:"grid",     t:SH.grid,     p:[0.22,0.28,0.00,-0.42, 0.05,0.90,1.00,1] },
   { id:"cabin",    t:SH.cabin,    p:[0.30,0.74,0.00, 0.44, 0.02,0.95,1.05,1] },
-  { id:"digit",    t:SH.digit,    p:[0.10,0.30,0.00,-0.40, 0.00,0.85,1.00,0] },
+  { id:"digit",    t:SH.digit,    p:[0.10,0.30,0.00,-0.40, 0.00,1.25,1.00,0] },
   { id:"line",     t:SH.line,     p:[0.04,0.45,0.00, 0.00, 0.00,0.95,1.00,0],
     oy:lineY, uni:(q,t) => [0, REDUCED ? 0 : 0.085*Math.pow(1-clamp01(q/0.8),2) + 0.004, -9, 1, 0, 0] },
 ];
