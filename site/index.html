@@ -650,12 +650,12 @@ for (let i=0;i<N;i++){
   const c = C4[i%4], sd = rnd() < 0.7 ? 0.11 : 0.2;
   put(SH.problem, i, c[0]+gauss()*sd, c[1]+gauss()*sd, gauss()*0.08);
 }
-/* three market clusters */
-SH.clusters = tgt();
+/* one house: the four vendors pulled into a single dense disc
+   (sunflower / golden-angle packing; it spins slowly in-plane via uni) */
+SH.disc = tgt();
 for (let i=0;i<N;i++){
-  const k = i%3, a = k*2.0944 + 0.5;
-  const cx = Math.cos(a)*0.72, cy = Math.sin(a)*0.5, cz = (k-1)*0.18;
-  put(SH.clusters, i, cx+gauss()*0.26, cy+gauss()*0.22, cz+gauss()*0.22);
+  const r = 0.8*Math.sqrt((i+0.5)/N), a = i*2.399963229728653;
+  put(SH.disc, i, Math.cos(a)*r, Math.sin(a)*r, gauss()*0.02);
 }
 /* the cycle: tilted torus */
 SH.torus = tgt();
@@ -761,7 +761,8 @@ const SCENES = [
   { id:"sphere",   t:SH.sphere,   p:[0.55,0.25,1.00, 0.46, 0.00,1.00,1.00,1] },
   { id:"problem",  t:SH.problem,  p:[0.30,0.22,0.00, 0.46, 0.00,1.00,0.92,0.3],
     draw:drawProblem, tick:tickProblem },
-  { id:"clusters", t:SH.clusters, p:[0.50,0.32,0.50,-0.42, 0.00,1.18,1.00,1] },
+  { id:"disc",     t:SH.disc,     p:[0.10,0.30,0.00,-0.42, 0.00,0.88,1.00,0],
+    uni:(q,t) => [-t*0.12, 0, -9, 1, 0, 0] },
   { id:"torus",    t:SH.torus,    p:[0.32,0.35,1.00, 0.00, 0.16,1.00,0.82,1] },
   { id:"sun",      t:SH.sun,      p:[0.55,0.95,0.00, 0.44, 0.02,1.05,0.95,1] },
   { id:"grid",     t:SH.grid,     p:[0.22,0.28,0.00,-0.42, 0.05,0.90,1.00,1] },
