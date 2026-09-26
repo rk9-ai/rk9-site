@@ -16,9 +16,14 @@ jobs:
         run: |
           test -f site/index.html
           test -f site/tietosuoja.html
+          test -f site/selitys.html
           test -f site/og.jpg
           grep -q 'id="stage"' site/index.html
           grep -q 'Tietosuojaseloste' site/tietosuoja.html
+          grep -q 'id="stage"' site/selitys.html
+          # Fonts are inlined; no page may call Google Fonts (privacy).
+          # (explicit if: set -e ignores a `!`-negated command)
+          if grep -l 'fonts.googleapis\|fonts.gstatic' site/*.html; then echo "Google Fonts reference found"; exit 1; fi
           grep -q 'og:image' site/index.html
           grep -q '^Sitemap: https://rk9.fi/sitemap.xml$' site/robots.txt
           python3 -c "import xml.dom.minidom,sys; xml.dom.minidom.parse('site/sitemap.xml')"
