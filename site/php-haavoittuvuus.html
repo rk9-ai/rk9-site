@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="fi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kriittinen PHP-haavoittuvuus 21.10.2026: mitä pienyrityksen kannattaa tarkistaa — RK9 AI OY</title>
+  <meta name="description" content="PHP:hen julkaistiin 21.10.2026 korjaus kahteen kriittiseen haavoittuvuuteen. Näin tarkistat, koskeeko se yrityksesi WordPress-sivustoa, ja mitä pyydät palveluntarjoajaltasi.">
+  <link rel="canonical" href="https://rk9.fi/php-haavoittuvuus">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#06080D">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="RK9 AI OY">
+  <meta property="og:url" content="https://rk9.fi/php-haavoittuvuus">
+  <meta property="og:title" content="Kriittinen PHP-haavoittuvuus: mitä pienyrityksen kannattaa tarkistaa">
+  <meta property="og:description" content="Kolme tarkistusta yrityksen verkkosivustolle PHP:n 21.10.2026 julkaistun tietoturvakorjauksen jälkeen.">
+  <meta property="og:image" content="https://rk9.fi/og.jpg">
+  <meta property="og:locale" content="fi_FI">
+  <meta property="article:published_time" content="2026-10-21">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 26'%3E%3Ccircle cx='4' cy='4' r='1.4' stroke='%23000' stroke-width='1.2' fill='none'/%3E%3Ccircle cx='22' cy='4' r='2.4' fill='%23F0B97C'/%3E%3Ccircle cx='13' cy='13' r='2.4' fill='%23000'/%3E%3C/svg%3E">
+  <script defer data-domain="rk9.fi" src="https://stats.rk9.fi/js/script.tagged-events.outbound-links.js"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "@id": "https://rk9.fi/php-haavoittuvuus#article",
+        "headline": "Kriittinen PHP-haavoittuvuus 21.10.2026: mitä pienyrityksen kannattaa tarkistaa",
+        "datePublished": "2026-10-21",
+        "dateModified": "2026-10-21",
+        "inLanguage": "fi",
+        "image": "https://rk9.fi/og.jpg",
+        "author": {"@type": "Person", "name": "Mikko-Ville Lahti"},
+        "publisher": {"@id": "https://rk9.fi/#organization"},
+        "mainEntityOfPage": "https://rk9.fi/php-haavoittuvuus"
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://rk9.fi/#organization",
+        "name": "RK9 AI OY",
+        "url": "https://rk9.fi/",
+        "taxID": "3612536-6"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Mitkä PHP-versiot korjaavat 21.10.2026 julkaistut haavoittuvuudet?",
+            "acceptedAnswer": {"@type": "Answer", "text": "PHP 8.5.12, 8.4.27, 8.3.36 ja 8.2.35. Vanhemmat versiot eivät saa korjausta PHP:ltä. Osa palveluntarjoajista paikkaa vanhoja versioita itse, joten kysy asiaa omalta palveluntarjoajaltasi."}
+          },
+          {
+            "@type": "Question",
+            "name": "Miten näen WordPress-sivustoni PHP-version?",
+            "acceptedAnswer": {"@type": "Answer", "text": "Kirjaudu WordPressin hallintaan ja avaa Työkalut, sitten Sivuston terveys ja välilehti Tiedot. PHP-versio näkyy kohdassa Palvelin. Versio näkyy myös palveluntarjoajasi hallintapaneelissa."}
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+  <style>
+    :root{
+      --bg:#06080D; --bg2:#0C0F16; --ink:#EDEFF4; --soft:#A9B1C3; --dim:#8A93A8;
+      --ice:#A5C4FF; --sun:#F0B97C; --rule:rgba(165,196,255,.14);
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:var(--bg);color:var(--ink);
+      font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;
+      font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
+    ::selection{background:var(--sun);color:var(--bg)}
+    a{color:var(--ice)}
+    a:hover{color:var(--sun)}
+    :focus-visible{outline:2px solid var(--ice);outline-offset:3px}
+    .skip{position:absolute;left:-999px;top:8px;background:var(--ice);color:var(--bg);padding:8px 14px;z-index:10}
+    .skip:focus{left:8px}
+    header.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;
+      max-width:48rem;margin:0 auto;padding:20px 6vw;border-bottom:1px solid var(--rule)}
+    header.bar a.brand{color:var(--ink);text-decoration:none;font-weight:600;letter-spacing:.04em}
+    header.bar nav{display:flex;gap:18px;font-size:14px}
+    header.bar nav a{text-decoration:none;color:var(--soft)}
+    header.bar nav a:hover,header.bar nav a[aria-current="page"]{color:var(--ink)}
+    header.bar nav a[aria-current="page"]{border-bottom:1px solid var(--sun)}
+    .wrap{max-width:40rem;margin:0 auto;padding:7vh 6vw 10vh}
+    h1{font-family:Georgia,'Times New Roman',serif;font-weight:400;
+      font-size:clamp(1.9rem,5.5vw,2.9rem);line-height:1.12;margin-bottom:22px;text-wrap:balance}
+    h2{font-family:Georgia,serif;font-weight:400;font-size:1.4rem;margin:44px 0 10px}
+    p,li{color:var(--soft);max-width:36rem}
+    p+p{margin-top:12px}
+    ul{margin:8px 0 0 1.2em}
+    li{margin-bottom:6px}
+    .cta{display:inline-block;margin-top:22px;padding:13px 20px;border-radius:4px;
+      background:var(--ice);color:var(--bg);font-weight:600;text-decoration:none}
+    .cta:hover{background:var(--sun);color:var(--bg)}
+    li strong{color:var(--ink);font-weight:600}
+    details{border-top:1px solid var(--rule);padding:12px 0}
+    details:last-of-type{border-bottom:1px solid var(--rule)}
+    summary{cursor:pointer;color:var(--ink);font-weight:500}
+    details p{margin-top:8px}
+    .meta{font-size:14px;color:var(--dim);margin-bottom:28px}
+    ol{margin:8px 0 0 1.2em}
+    .src{margin-top:56px;padding-top:24px;border-top:1px solid var(--rule);font-size:14px}
+    footer{max-width:48rem;margin:0 auto;padding:0 6vw 10vh;font-size:13px;color:var(--dim);line-height:1.9}
+    footer a{color:var(--soft)}
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Siirry sisältöön</a>
+  <header class="bar">
+    <a class="brand" href="/">RK9&nbsp;AI</a>
+    <nav aria-label="Sivuston navigaatio">
+      <a href="/sivustot">Sivustot</a>
+      <a href="/">Etusivu</a>
+    </nav>
+  </header>
+
+  <main class="wrap" id="main">
+    <article>
+    <h1>Kriittinen PHP-haavoittuvuus: mitä pienyrityksen kannattaa tarkistaa</h1>
+    <p class="meta">Julkaistu 21.10.2026 · Mikko-Ville Lahti, RK9 AI OY</p>
+
+    <p>PHP julkaisi 21.10.2026 korjauksen kahteen kriittiseen haavoittuvuuteen (CVE-2026-109618 ja CVE-2026-109619). Ilman korjausta hyökkääjä voi pahimmillaan ajaa omaa koodiaan palvelimella ilman kirjautumista. Korjaus on PHP:n versioissa 8.5.12, 8.4.27, 8.3.36 ja 8.2.35.</p>
+    <p>Tämä sivu kertoo, koskeeko asia yrityksesi verkkosivustoa ja mitä voit tehdä itse. Tarkistukset vievät noin vartin.</p>
+
+    <h2>Koskeeko tämä minua?</h2>
+    <p>Todennäköisesti, jos sivustosi on tehty WordPressillä, Joomlalla tai Drupalilla. Ne kaikki toimivat PHP:llä. Wix, Squarespace ja Webnode ovat palveluita, joiden palvelimista palveluntarjoaja huolehtii itse.</p>
+    <p>Kävimme syksyllä läpi 281 kantahämäläisen pienyrityksen verkkosivustot. Lähes puolet niistä oli tehty WordPressillä. 78 sivuston palvelin kertoi julkisesti PHP-versionsa, ja 14 niistä käytti versiota, jonka tietoturvatuki on jo päättynyt.</p>
+
+    <h2>Kolme tarkistusta</h2>
+    <ol>
+      <li><strong>Selvitä PHP-versio.</strong> Kirjaudu WordPressin hallintaan ja avaa <em>Työkalut → Sivuston terveys → Tiedot → Palvelin</em>. Versio näkyy myös palveluntarjoajasi hallintapaneelissa.</li>
+      <li><strong>Kysy palveluntarjoajalta, onko korjaus asennettu.</strong> Lähetä lyhyt viesti: ”Onko sivustomme PHP päivitetty 21.10.2026 julkaistuun korjausversioon tai paikattu muuten?” Useimmat palveluntarjoajat päivittävät PHP:n itse, mutta vahvistus kannattaa pyytää kirjallisena.</li>
+      <li><strong>Jos versio on vanhempi kuin 8.2, pyydä päivitys.</strong> Versiot 8.1 ja vanhemmat eivät saa korjausta PHP:ltä. Ota ennen päivitystä varmuuskopio ja tarkista sen jälkeen, että lomakkeet ja sivut toimivat. Vanhat lisäosat voivat lakata toimimasta uudemmalla PHP:llä.</li>
+    </ol>
+    <p>Päivitä samalla WordPress, teema ja lisäosat. Ne eivät korjaa tätä haavoittuvuutta, mutta vanhentuneet lisäosat ovat tavallisin syy murrettuihin sivustoihin.</p>
+
+    <h2>Mitä jos en tiedä, kuka sivustoa hoitaa?</h2>
+    <p>Tämä on yleistä. Sivuston teki ehkä aikoinaan tuttu tai mainostoimisto, eikä kukaan ole koskenut siihen sen jälkeen. Katso ensin, mille yritykselle maksat verkkotunnuksesta tai webhotellista. Sen asiakaspalvelu osaa yleensä kertoa PHP-version.</p>
+
+    <h2>Miten RK9 tekee sivustot</h2>
+    <p>Tekemämme sivustot eivät käytä PHP:tä, joten tämä haavoittuvuus ei koske niitä. Ylläpitoon kuuluvat tietoturvapäivitykset ja varmuuskopiot, joten asiakkaan ei tarvitse seurata tällaisia uutisia itse. Lue lisää <a href="/sivustot">sivustoista ja ylläpidosta</a>.</p>
+    <p>Jos haluat, että katsomme sivustosi tilanteen, lähetä osoite sähköpostilla. Tarkistus on maksuton eikä velvoita mihinkään.</p>
+    <a class="cta plausible-event-name=php_tarkistus_klikattu" href="mailto:mikko-ville.lahti@rk9.fi?subject=PHP-tarkistus%3A%20sivustomme%20osoite">Pyydä maksuton tarkistus</a>
+
+    <div class="src">
+      <p>Lähteet:</p>
+      <ul>
+        <li><a href="https://www.php.net/supported-versions.php">PHP: tuetut versiot</a></li>
+        <li><a href="https://www.helpnetsecurity.com/2026/10/21/php2shell-php-vulnerabilities-patched-cve-2026-109618-cve-2026-109619/">Help Net Security: PHP2Shell patched (21.10.2026)</a></li>
+        <li><a href="https://www.tenable.com/blog/php2shell-cve-2026-109618-cve-2026-109619-frequently-asked-questions-about-critical-php-remote">Tenable: PHP2Shell FAQ</a></li>
+      </ul>
+    </div>
+    </article>
+  </main>
+
+  <footer>
+    <p>© 2026 RK9 AI OY · Forssa · Y-tunnus 3612536-6<br>
+    <a href="/tietosuoja">Tietosuoja</a> ·
+    <a href="/sivustot">Sivustot</a></p>
+  </footer>
+</body>
+</html>
