@@ -18,6 +18,9 @@ inlined, so the whole site is three HTML files and one image.
     The homepage "Katso 30 s" dialog loads the same file in an iframe
     (`/selitys.html?embed=1&lang=fi|en`) only when opened — one source.
   - `site/og.jpg` — social share image (1200×630).
+  - `site/<32 hex>.txt` — IndexNow key (Bing and other IndexNow engines).
+    After a deploy that adds or changes a page, POST the URLs to
+    `https://api.indexnow.org/indexnow` with `key` and `keyLocation`.
 - **nginx:alpine** container serves them (`Dockerfile` + `deploy/nginx/container.conf`).
 - No backend, no database, no node_modules.
 
